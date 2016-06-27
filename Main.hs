@@ -1,8 +1,9 @@
+-- {-# OPTIONS_GHC -fwarn-type-defaults #-}
 module Main where
 
 import Test.QuickCheck
-
-main = undefined
+import Data.Char (digitToInt)
+-- import Data.Map (insertWith)
 
 -- Multiples of 3 and 5
 -- Problem 1
@@ -12,7 +13,7 @@ main = undefined
 
 -- Find the sum of all the multiples of 3 or 5 below 1000.
 
-divByN :: Int -> Int -> Bool
+divByN :: Integral a => a -> a -> Bool
 divByN = ((==0) .) . mod
 
 divByThreeOrFive :: Int -> Bool
@@ -33,7 +34,8 @@ problem1 = sum $ filter divByThreeOrFive [1..999]
 -- By considering the terms in the Fibonacci sequence whose values do
 -- not exceed four million, find the sum of the even-valued terms.
 
-fourMil = 4 * 10 ^ 6
+-- fourMil :: Integral a => a
+-- fourMil = 4 * 10 ^ 6
 
 fib :: Int -> Int
 fib 0 = 1
@@ -49,16 +51,19 @@ problem2 = (\n -> sum $ filter even $ takeWhile (<n) $ map fib [0..]) 4000000
 
 -- What is the largest prime factor of the number 600851475143 ?
 
+number :: Integral a => a
 number = 600851475143
 
 largestDivisor :: Int -> Int
 largestDivisor n = go n [2..]
-  where go n (x:xs) =
-          if mod n x == 0
-          then if div n x == 1
+  where go _ [] = undefined
+        go _ [x] = x
+        go m (x:xs) =
+          if mod m x == 0
+          then if div m x == 1
                then x
-               else go (div n x) (x:xs)
-          else go n xs
+               else go (div m x) (x:xs)
+          else go m xs
 
 problem3 :: Int
 problem3 = largestDivisor number
@@ -76,6 +81,7 @@ problem3 = largestDivisor number
 isPalindromic :: Int -> Bool
 isPalindromic n = show n == (reverse $ show n)
 
+threeDigits :: (Num a, Enum a) => [a]
 threeDigits = [100..999]
 
 products :: [Int] -> [Int]
@@ -161,6 +167,7 @@ data LCMAlgo =
           }
   deriving Show
 
+lcmalgo :: LCMAlgo
 lcmalgo = LCMAlgo [2,3,4] [4,6,4] 3 True
 
 
@@ -171,44 +178,281 @@ lcmalgo = LCMAlgo [2,3,4] [4,6,4] 3 True
 -- incrementElements (x:y:ys) = undefined
 
 
-allEqual :: Eq a => [a] -> Bool
-allEqual [] = True
-allEqual [x] = True
-allEqual (x:y:ys)
-  | x == y = allEqual (y:ys)
-  | otherwise = False
+-- allEqual :: Eq a => [a] -> Bool
+-- allEqual [] = True
+-- allEqual [x] = True
+-- allEqual (x:y:ys)
+--   | x == y = allEqual (y:ys)
+--   | otherwise = False
 
--- getIndices [2,3,6,4,6] --> [0,1,3]
-getIndices :: [Int] -> [Int]
-getIndices xs = [ i | i <- [0..(length xs)-1], xs !! i < maximum xs ]
+-- -- getIndices [2,3,6,4,6] --> [0,1,3]
+-- getIndices :: [Int] -> [Int]
+-- getIndices xs = [ i | i <- [0..(length xs)-1], xs !! i < maximum xs ]
 
-getIndicesR :: [(Int, Int)] -> [Int]
-getIndicesR = getIndices . map snd
+-- getIndicesR :: [(Int, Int)] -> [Int]
+-- getIndicesR = getIndices . map snd
 
--- update [(2,4),(3,6),(4,4)] [0,2] --> [(2,6),(3,6),(4,8)]
-update :: [(Int, Int)] -> [Int] -> [(Int, Int)]
-update xys indices = [ let (x, y) = (xys !! i)
-                       in (x, go i x y)
-                     | i <- [0..(length xys)-1]
-                     ]
-  where go i x y =
-          if i `elem` indices then x + y else y
+-- -- update [(2,4),(3,6),(4,4)] [0,2] --> [(2,6),(3,6),(4,8)]
+-- update :: [(Int, Int)] -> [Int] -> [(Int, Int)]
+-- update xys indices = [ let (x, y) = (xys !! i)
+--                        in (x, go i x y)
+--                      | i <- [0..(length xys)-1]
+--                      ]
+--   where go i x y =
+--           if i `elem` indices then x + y else y
 
-lCMRecursion :: [(Int, Int)] -> [Int] -> Int
-lCMRecursion xys is =
-  let ys = map snd xys
-  in if allEqual ys
-     then head ys
-     else let xys' = update xys is
-              is' = getIndicesR xys'
-          in lCMRecursion xys' is'
+-- lCMRecursion :: [(Int, Int)] -> [Int] -> Int
+-- lCMRecursion xys is =
+--   let ys = map snd xys
+--   in if allEqual ys
+--      then head ys
+--      else let xys' = update xys is
+--               is' = getIndicesR xys'
+--           in lCMRecursion xys' is'
 
-lCM :: [Int] -> Int
-lCM xs = lCMRecursion (zip xs xs) $ getIndices xs
+-- lCM :: [Int] -> Int
+-- lCM xs = lCMRecursion (zip xs xs) $ getIndices xs
 
-problem5 :: Int
-problem5 = lCM [1..20]
+-- problem5 :: Int
+-- problem5 = lCM [1..20]
 
 lCMList :: [Int] -> Int
+lCMList [] = undefined
 lCMList [x] = x
-lCMList (x:y:ys) = lCMList (lCM [x,y] : ys)
+lCMList (x:y:ys) = lCMList (lCM x y : ys)
+
+lCM :: Int -> Int -> Int
+lCM x y = x * y `div` gCD x y
+
+gCD :: Int -> Int -> Int
+gCD x y
+  | x == y = x
+  | x < y  = gCD x (y-x)
+  | x > y  = gCD (x-y) y
+  | otherwise = undefined
+
+
+-- Sum square difference
+-- Problem 6
+
+-- The sum of the squares of the first ten natural numbers is,
+-- 12 + 22 + ... + 102 = 385
+
+-- The square of the sum of the first ten natural numbers is,
+-- (1 + 2 + ... + 10)2 = 552 = 3025
+
+-- Hence the difference between the sum of the squares of the first
+-- ten natural numbers and the square of the sum is 3025 − 385 = 2640.
+
+-- Find the difference between the sum of the squares of the first one
+-- hundred natural numbers and the square of the sum.
+
+diff :: (Enum a, Num a) => a -> a
+diff n = (sum [1..n])^(2::Int) - sum ((^(2::Int)) <$> [1..n])
+
+problem6 :: Int
+problem6 = diff 100
+
+-- 10001st prime
+-- Problem 7
+
+-- By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we
+-- can see that the 6th prime is 13.
+
+-- What is the 10 001st prime number?
+
+-- isPrime :: Int -> Bool
+-- isPrime a = isPrimeRecursion a [2..]
+
+-- isPrimeRecursion :: Int -> [Int] -> Bool
+-- isPrimeRecursion a (x:xs)
+--   | x^2 > a        = True
+--   | a `mod` x == 0 = False
+--   | otherwise      = isPrimeRecursion a ys
+--   where ys = filter (\y -> y `mod` x /= 0) xs
+
+nthPrime :: Integral a => Int -> a
+nthPrime n = (filter isPrime [2..]) !! (n-1)
+
+problem7 :: Integral a => a
+problem7 = nthPrime 10001
+
+-- Largest product in a series
+-- Problem 8
+
+-- The four adjacent digits in the 1000-digit number that have the
+-- greatest product are 9 × 9 × 8 × 9 = 5832.
+
+numbers :: [Char]
+numbers = "73167176531330624919225119674426574742355349194934\
+          \96983520312774506326239578318016984801869478851843\
+          \85861560789112949495459501737958331952853208805511\
+          \12540698747158523863050715693290963295227443043557\
+          \66896648950445244523161731856403098711121722383113\
+          \62229893423380308135336276614282806444486645238749\
+          \30358907296290491560440772390713810515859307960866\
+          \70172427121883998797908792274921901699720888093776\
+          \65727333001053367881220235421809751254540594752243\
+          \52584907711670556013604839586446706324415722155397\
+          \53697817977846174064955149290862569321978468622482\
+          \83972241375657056057490261407972968652414535100474\
+          \82166370484403199890008895243450658541227588666881\
+          \16427171479924442928230863465674813919123162824586\
+          \17866458359124566529476545682848912883142607690042\
+          \24219022671055626321111109370544217506941658960408\
+          \07198403850962455444362981230987879927244284909188\
+          \84580156166097919133875499200524063689912560717606\
+          \05886116467109405077541002256983155200055935729725\
+          \71636269561882670428252483600823257530420752963450"
+
+-- Find the thirteen adjacent digits in the 1000-digit number that
+-- have the greatest product. What is the value of this product?
+
+greatestProduct :: [Char] -> Int
+greatestProduct s = go (0, s)
+  where go (n, []) = n
+        go (n, s') = go
+          (n `max` (product . map digitToInt $ take 13 s')
+          , tail s')
+
+problem8 :: Int
+problem8 = greatestProduct numbers
+
+-- Special Pythagorean triplet
+-- Problem 9
+
+-- A Pythagorean triplet is a set of three natural numbers, a < b < c,
+-- for which,
+-- a2 + b2 = c2
+
+-- For example, 32 + 42 = 9 + 16 = 25 = 52.
+
+-- There exists exactly one Pythagorean triplet for which a + b + c =
+-- 1000.
+-- Find the product abc.
+
+problem9 :: Integral a => a
+problem9 = head [ x*y*z | x <- [1..1000], y <- [x+1..1000], z <- [1000 - x - y]
+                        , x^(2::Int) + y^(2::Int) == z^(2::Int) ]
+
+-- Summation of primes
+-- Problem 10
+
+-- The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
+-- Find the sum of all the primes below two million.
+
+-- [2,3,4,5,6,7,8,9,10,...]
+
+-- 2 : filter (\n -> n div 2 == 0) [3,4,5,6,7,8,9,10,...]
+
+-- 2 : [3,5,7,9,...]
+
+-- 2 : 3 : filter (\n -> n div 3 == 0) [5,7,9,...]
+
+-- 2 : 3 : [5,7,...]
+
+-- \(p:ns) -> x : filter (\n -> n div p) ns
+
+-- divBy :: Int -> Int -> Bool
+-- divBy n q = n `div` q ==
+
+-- primes :: [Int]
+-- primes = go [2..] where
+--   go (p:ns) = p : go (filter (\n->n`mod`p/=0) ns)
+
+-- isPrime :: Int -> Bool
+-- isPrime n = any (\p -> n `mod` p == 0) primes
+--   | 
+
+isPrimeOrEven :: Int -> Bool
+isPrimeOrEven a = isPrimeRecursion a [3,5..]
+
+isPrime :: Integral a => a -> Bool
+isPrime a = isPrimeRecursion a [2..]
+
+isPrimeRecursion :: Integral a => a -> [a] -> Bool
+isPrimeRecursion _ [] = undefined
+isPrimeRecursion _ [_] = undefined
+isPrimeRecursion n (x:xs)
+  | x^(2::Int) > n = True
+  | n `mod` x == 0 = False
+  | otherwise      = isPrimeRecursion n ys
+  where ys = filter (\y -> y `mod` x /= 0) xs
+
+-- unfaithful sieve
+
+
+-- trial division
+
+-- primesUpTo :: Int -> [Int]
+-- primesUpTo n = 2 : go n [3,5..n]
+--   where go :: Int -> [Int] -> [Int]
+--         go n [] = []
+--         go n (p:ms)
+--           | p^2 > n   = (p:ms)
+--           | otherwise =
+--               p : (go n $ filter (\m -> m `notElem` [p^2,p^2+1..n]) ms)
+
+primesUpTo :: Int -> [Int]
+primesUpTo n = 2 : go n [3,5..n]
+  where go :: Int -> [Int] -> [Int]
+        go _ [] = []
+        go m (p:ms)
+          | p^(2::Int) > m   = (p:ms)
+          | otherwise =
+            p : (go n $ filter (\l -> l `notElem` [p^(2::Int),p^(2::Int)+p..n]) ms)
+
+-- [2,3,5,7,9,11,13,15,17,..]
+-- 2 : [3,5,7,9,11,13,15,17,..]
+-- 2 : 3 : [5,7,11,13,17,..]
+-- 2 : 3 : 5 : [7,11,13,17,..]
+-- ...
+
+factorOutTwos :: Integral a => (a, a) -> (a, a)
+factorOutTwos (d, s) = if odd d
+                       then (d, s)
+                       else factorOutTwos $ (div d 2, s+1)
+  
+sprp :: Integral a => a -> a -> Bool
+sprp a n = combinedTest a (factorOutTwos (n-1, 0)) n
+
+combinedTest :: Integral a => a -> (a, a) -> a -> Bool
+combinedTest a (d, s) n =
+  (firstTest a d n) ||
+  (secondTest a d s n)
+
+firstTest :: (Integral a, Integral b)
+             => a -> b -> a -> Bool
+firstTest a d n = a^d `mod` n == 1
+
+secondTest :: (Integral a, Integral b, Integral b1)
+              => a -> b -> b1 -> a -> Bool
+secondTest a d s n =
+  or $ map (\r -> a^(d*2^r) `mod` n == n-1) [0..s-1]
+
+checkIfPrime :: Integral a => a -> Bool
+checkIfPrime 1 = False
+checkIfPrime 2 = True
+checkIfPrime 3 = True
+checkIfPrime 5 = True
+checkIfPrime n =
+  -- (and $ map (not . divByN n) [2,3,5]) &&
+  (and $ map (\a -> sprp a n) [2,3,5])
+
+main :: IO ()
+main = do
+  quickCheckWith stdArgs { maxSuccess = 1000 } (prop :: Integer -> Bool)
+  
+  -- let n = 59
+  --     a = 5
+  -- print $ sprp 5 59
+  -- print $ sprp a n
+  -- print $ combinedTest a (factorOutTwos (n-1, 0)) n
+  -- print $ combinedTest 5 (factorOutTwos (58, 0)) 59
+
+prop :: Integral a => a -> Bool
+prop n
+  | n <= 2    = True
+  | otherwise = isPrime n == checkIfPrime n
+
