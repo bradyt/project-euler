@@ -25,3 +25,4 @@ import Data.Numbers.Primes
 
 problem10 :: Integer
 problem10 = sum $ takeWhile (< 2 * 10^6) primes
+

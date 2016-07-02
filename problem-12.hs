@@ -1,6 +1,5 @@
 
 import Math.NumberTheory.Primes.Factorisation
-import Data.Numbers
 
 -- Highly divisible triangular number
 -- Problem 12
@@ -30,9 +29,12 @@ import Data.Numbers
 triangularNumber :: Integral a => a -> a
 triangularNumber n = n * (n+1) `div` 2
 
+numOfFactors :: Integer -> Int
+numOfFactors n = product $ map ((+1) . snd) $ factorise n
+
 searchForNumber :: Integer
-searchForNumber = go 2079
+searchForNumber = go 1
   where go n =
           if (numOfFactors $ triangularNumber n) > 500
-          then n
+          then triangularNumber n
           else go $ n + 1
