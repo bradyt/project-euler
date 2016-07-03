@@ -23,15 +23,18 @@
 
 import Data.Map (Map)
 import qualified Data.Map as M
-import Math.NumberTheory.Primes.Factorisation
+import Math.NumberTheory.Primes.Factorisation (divisors)
 import Control.Applicative
 import Data.Maybe (fromJust)
+
+upperLimit = 28123
+-- upperLimit = 20
 
 isAbundant :: Integer -> Bool
 isAbundant n = (> 2*n) $ sum $ divisors n
 
 allAbundants :: [Integer]
-allAbundants = filter isAbundant [1..28123]
+allAbundants = filter isAbundant [1..upperLimit]
 
 abundantMap :: Map Int Integer
 abundantMap = M.fromList $ zip [0..] allAbundants
@@ -44,33 +47,47 @@ abundantSumsArray :: Map Integer [(Int, Int)]
 abundantSumsArray = M.fromList [ (convertAbundantPtToSum (i, i), [(i, i)])
                                | i <- [0..(length allAbundants) - 1] ]
 
-updateSums :: Map Integer [(Int, Int)] -> (Int, Int) -> Map Integer [(Int, Int)]
-updateSums array point
-  | snd point < (length allAbundants) =
-      M.insertWith (++) (convertAbundantPtToSum point) [point] array
+updateSumsFromPoint :: Map Integer [(Int, Int)] -> (Int, Int)
+                    -> Map Integer [(Int, Int)]
+updateSumsFromPoint array (p1, p2)
+  | p2' < (length allAbundants) =
+      M.insertWith (++) (convertAbundantPtToSum (p1, p2')) [(p1, p2')] array
   | otherwise                = array
+  where p2' = p2 + 1
 
--- removeSums :: [Integer] -> [Integer]
--- removeSums xs = removeSumsRec xs abundantSumsArray
+-- want a function that takes a value, and updates the table
+updateSumsFromSum :: Map Integer [(Int, Int)] -> Integer -> Map Integer [(Int, Int)]
+updateSumsFromSum array sum =
+  case (M.lookup sum array) of
+    Nothing     -> array
+    Just points -> 
+      foldl updateSumsFromPoint (M.delete sum array) points
 
--- removeSumsRec :: [Integer] -> Map Integer [(Integer, Integer)] -> [Integer]
--- removeSumsRec [] _         = []
--- removeSumsRec (x:xs) array =
---   case (M.lookup x array) of
---     Nothing     -> x:removeSumsRec xs array
---     Just points -> removeSumsRec xs (foldl
---                                         reinsert (M.delete x array) points)
---   where reinsert :: Map Integer [(Integer, Integer)]
---                  -> (Integer, Integer)
---                  -> Map Integer [(Integer, Integer)]
---         reinsert array' (p1, p2) =
---           case (M.lookup (p2+1) abundantMap) of
---             Just nextAbundant -> 
---               M.insertWith (++) val [(p1, p2+1)] array'
---               where val = 
---                       (abundantMap M.! p1) +
---                       nextAbundant
---             Nothing -> array'
+removeSums :: [Integer] -> [Integer]
+removeSums xs = removeSumsRec xs abundantSumsArray
+
+removeSumsRec :: [Integer] -> Map Integer [(Int, Int)] -> [Integer]
+removeSumsRec [] _         = []
+removeSumsRec (x:xs) array =
+  case (M.lookup x array) of
+    Nothing     -> x:removeSumsRec xs array
+    Just points -> removeSumsRec xs (foldl
+                                     updateSumsFromPoint
+                                     (M.delete x array) points)
+
+problem23 = sum $ removeSums [1..upperLimit]
+
+  -- where reinsert :: Map Integer [(Integer, Integer)]
+  --                -> (Integer, Integer)
+  --                -> Map Integer [(Integer, Integer)]
+  --       reinsert array' (p1, p2) =
+  --         case (M.lookup (p2+1) abundantMap) of
+  --           Just nextAbundant -> 
+  --             M.insertWith (++) val [(p1, p2+1)] array'
+  --             where val = 
+  --                     (abundantMap M.! p1) +
+  --                     nextAbundant
+  --           Nothing -> array'
 
 -- sieve :: [Integer] -> [Integer]
 -- sieve ys = sieve' ys M.empty

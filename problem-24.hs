@@ -49,7 +49,7 @@ isDecreasing (x:y:ys) = x > y && isDecreasing (y:ys)
 
 
 
-factorial :: Int -> Int
+factorial :: Integral a => a -> a
 factorial n = product [1..n]
 
 -- build :: (Int, [Int], [Int]) -> (Int, [Int], [Int])
@@ -82,3 +82,29 @@ eighth2 = seventh1 - 1 * factorial 2
 -- 2783914605
 -- 1672803549
 
+-- -- leftover source avail mult ==> leftover
+-- leftover :: Int -> Int -> Int -> Int
+-- leftover source avail mult = source - mult * (factorial avail)
+
+-- fitAndLeftover 10^6 9 ==> (2, 274240)
+fitAndLeftover :: Integral a => a -> a -> (a, a)
+fitAndLeftover pagesLeft numberAvail = divMod pagesLeft $ factorial numberAvail
+
+takeIth :: Int -> [a] -> (a, [a])
+takeIth n xs = (z, ys ++ zs)
+  where (ys, (z:zs)) = splitAt n xs
+
+nextElem :: (Integral a, Integral b) => a -> [b] -> (b, a, [b])
+nextElem pages elems = (accrue, pages', elems')
+  where (pages', index) = pagesAndIndex pages elems
+        (accrue, elems') = takeIth (fromIntegral index) elems
+
+pagesAndIndex :: (Integral a) => a -> [b] -> (a, a)
+pagesAndIndex pages elems =
+  divMod pages $ factorial $ fromIntegral $ length elems
+
+generateElems :: (Integral a, Integral b) => a -> [b] -> [b]
+generateElems pages elems = go pages elems
+  where go 0 elems = elems
+        go pages elems = a : go pages' elems'
+          where (a, pages', elems') = nextElem pages elems
