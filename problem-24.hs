@@ -82,26 +82,18 @@ eighth2 = seventh1 - 1 * factorial 2
 -- 2783914605
 -- 1672803549
 
--- -- leftover source avail mult ==> leftover
--- leftover :: Int -> Int -> Int -> Int
--- leftover source avail mult = source - mult * (factorial avail)
-
--- fitAndLeftover 10^6 9 ==> (2, 274240)
-fitAndLeftover :: Integral a => a -> a -> (a, a)
-fitAndLeftover pagesLeft numberAvail = divMod pagesLeft $ factorial numberAvail
-
-takeIth :: Int -> [a] -> (a, [a])
+takeIth :: Integral a => a -> [b] -> (b, [b])
 takeIth n xs = (z, ys ++ zs)
-  where (ys, (z:zs)) = splitAt n xs
+  where (ys, (z:zs)) = splitAt (fromIntegral n) xs
+
+pagesAndIndex :: (Integral a) => a -> [b] -> (a, a)
+pagesAndIndex pages elems =
+  divMod pages $ factorial $ fromIntegral $ length elems - 1
 
 nextElem :: (Integral a, Integral b) => a -> [b] -> (b, a, [b])
 nextElem pages elems = (accrue, pages', elems')
   where (pages', index) = pagesAndIndex pages elems
-        (accrue, elems') = takeIth (fromIntegral index) elems
-
-pagesAndIndex :: (Integral a) => a -> [b] -> (a, a)
-pagesAndIndex pages elems =
-  divMod pages $ factorial $ fromIntegral $ length elems
+        (accrue, elems') = takeIth index elems
 
 generateElems :: (Integral a, Integral b) => a -> [b] -> [b]
 generateElems pages elems = go pages elems
