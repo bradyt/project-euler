@@ -1,4 +1,6 @@
 
+import Data.Char (chr)
+
 factorial :: Integral a => a -> a
 factorial n = product [1..n]
 
@@ -25,3 +27,7 @@ takeIth n xs = (z, ys ++ zs)
   where (ys, (z:zs)) = splitAt (fromIntegral n) xs
 
 lexi p n = indicesToElems $ nextIndexRec p n
+
+convertIntsToStr = map intToChar
+
+intToChar = chr . (+48)
