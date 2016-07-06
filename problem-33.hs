@@ -19,4 +19,27 @@
 import Data.Ratio
 
 find :: (Int, Int) -> Maybe [Ratio Int]
-find (m, n) = 
+find (m, n) = undefined
+
+makeElem (m, n) i = [ (10*i + m) % (10*i + n)
+                    , (10*i + m) % (10*n + i)
+                    , (10*m + i) % (10*i + n)
+                    , (10*m + i) % (10*n + i) ]
+
+
+makeElems (m, n) = concatMap (makeElem (m, n)) [1..9]
+
+makeRatioAndCandidateRatios :: (Int, Int) -> (Ratio Int, [Ratio Int])
+makeRatioAndCandidateRatios (m, n) = (m % n, makeElems (m, n))
+
+returnGoodCandidates :: Eq a => (a, [a]) -> [a]
+returnGoodCandidates (x, xs) = filter (==x) xs
+
+takePairGiveGoodRatios :: (Int, Int) -> [Ratio Int]
+-- takePairGiveGoodRatios = undefined
+takePairGiveGoodRatios = 
+  returnGoodCandidates . makeRatioAndCandidateRatios
+
+array = [ (m, n) | m <- [1..9], n <- [1..9] ]
+
+getGoods = map takePairGiveGoodRatios array
