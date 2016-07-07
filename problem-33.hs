@@ -21,25 +21,29 @@ import Data.Ratio
 find :: (Int, Int) -> Maybe [Ratio Int]
 find (m, n) = undefined
 
-makeElem (m, n) i = [ (10*i + m) % (10*i + n)
-                    , (10*i + m) % (10*n + i)
-                    , (10*m + i) % (10*i + n)
-                    , (10*m + i) % (10*n + i) ]
+makePerm :: (Int, Int) -> Int -> [[Int]]
+makePerm (m, n) i = [ [i, m, i, n]
+                    , [i, m, n, i]
+                    , [m, i, i, n]
+                    , [m, i, n, i] ]
 
+makeRatio :: [Int] -> Ratio Int
+makeRatio [ p, q, r, s ] = (10*p + q) % (10*r + s)
 
-makeElems (m, n) = concatMap (makeElem (m, n)) [1..9]
+makePerms :: (Int, Int) -> [[Int]]
+makePerms (m, n) = concatMap (makePerm (m, n)) [1..9]
 
-makeRatioAndCandidateRatios :: (Int, Int) -> (Ratio Int, [Ratio Int])
-makeRatioAndCandidateRatios (m, n) = (m % n, makeElems (m, n))
+checkPerms :: (Int, Int) -> [Int] -> Bool
+checkPerms (m, n) ps = m % n == makeRatio ps
 
-returnGoodCandidates :: Eq a => (a, [a]) -> [a]
-returnGoodCandidates (x, xs) = filter (==x) xs
+checkForEachPair :: (Int, Int) -> [[Int]]
+checkForEachPair (m, n) = filter (checkPerms (m, n)) $ makePerms (m, n)
 
-takePairGiveGoodRatios :: (Int, Int) -> [Ratio Int]
--- takePairGiveGoodRatios = undefined
-takePairGiveGoodRatios = 
-  returnGoodCandidates . makeRatioAndCandidateRatios
+array :: [(Int, Int)]
+array = [ (m, n) | m <- [1..9], n <- [1..9], m < n ]
 
-array = [ (m, n) | m <- [1..9], n <- [1..9] ]
+winners :: [[Int]]
+winners = concatMap checkForEachPair array
 
-getGoods = map takePairGiveGoodRatios array
+result :: Ratio Int
+result = product $ map makeRatio winners
