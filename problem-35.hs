@@ -10,36 +10,37 @@
 -- How many circular primes are there below one million?
 
 import Math.NumberTheory.Primes
-import Data.Char (digitToInt)
-import Data.Char (intToDigit)
+import qualified Data.Map as M
+import Data.Digits (digits, unDigits)
+import Data.List (sort, nub)
 
--- onlyThese :: [Int]
-onlyThese k = map fromIntegral $ takeWhile (<10^k) primes
+type Prime = Int
+type Candidate = Int
+type Array = M.Map Candidate ([Candidate], [Prime])
 
-rotateList :: [a] -> [a]
-rotateList (x:xs) = xs ++ [x]
+allRotations :: Integral a => a -> [a]
+allRotations n = nub $ sort $ map (unDigits 10) $ go ms l
+  where ms = digits 10 n
+        l = length ms
+        go :: (Integral a, Integral b) => [a] -> b -> [[a]]
+        go _   0 = []
+        go ms' i = ms' : go (take l $ drop 1 $ cycle ms') (i-1)
 
--- intToList :: Integral a => a -> [a]
--- intToList = (map digitToInt) . show
+updateArray :: Prime -> Array -> Array
+updateArray p map = let rots = allRotations p in
+  if p == head rots
+  then if length rots == 1
+       then M.insert p ([0], [p]) map
+       else M.insert (rots!!1) (drop 2 rots, [p]) map
+  else if M.member p map
+       then let Just (candidates, primes) = M.lookup p map
+            in if null candidates
+               then M.insert p ([0], p:primes) (M.delete p map)
+               else let (c:cs) = candidates
+                    in M.insert c (cs, p:primes) (M.delete p map)
+       else map
 
--- listToInt :: Integral a => a -> [a]
--- listToInt xs = read $ map intToDigit $ fromIntegral xs
-
-intToList :: Int -> [Int]
-intToList = (map digitToInt) . show
-
-listToInt :: [Int] -> Int
-listToInt xs = read $ map intToDigit xs
-
-rotateInt :: Int -> Int
-rotateInt = listToInt . rotateList . intToList
-
--- checkIfCircularPrime :: Int -> Bool
-checkIfCircularPrime k p = go p p
-  where go n p
-          | m == p             = True
-          | m `elem` (onlyThese k) = go m p
-          | otherwise          = False
-          where m = rotateInt n
-
-problem35 k = length $ filter (checkIfCircularPrime k) $ onlyThese k
+arrayForOneMillion = foldl (flip updateArray) M.empty $
+  takeWhile (<10^6) $ map fromIntegral primes
+countForOneMillion = M.foldr (\(xs, ys) s -> if xs == [0] then s + length ys else s) 0
+  arrayForOneMillion
