@@ -28,6 +28,7 @@ executable project-euler
                      , average >= 0.6.1
                      , csv >= 0.1.2
                      , array >= 0.5.1.0
+                     , digits >= 0.2
   default-language:    Haskell2010
   ghc-options:       -fno-warn-type-defaults
                      -- , -Wall
