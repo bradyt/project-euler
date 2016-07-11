@@ -11,14 +11,29 @@
 
 -- NOTE: 2, 3, 5, and 7 are not considered to be truncatable primes.
 
-import Data.Digits
 import Math.NumberTheory.Primes
-import Control.Applicative ((<*>))
+import qualified Data.Set as S
+import Control.Applicative ((<*>), liftA2)
 
-removeLeftDigit = (<*>) mod ((^) 10 . floor . logBase 10 . fromIntegral)
-removeRightDigit = flip div 10
+import Data.List (tails)
 
-removeAndTestLeft = undefined
+truncateLeft :: Integer -> Integer
+truncateLeft = (<*>) mod ((^) 10 . floor . logBase 10 . fromIntegral)
 
-removeAndTestRight = undefined
+truncateRight :: Integer -> Integer
+truncateRight = flip div 10
 
+directionTruncatable :: (Integer -> Integer) -> Integer -> Bool
+directionTruncatable f n = go n
+  where go n
+          | n `elem` [2,3,5,7] = True
+          | not $ isPrime n    = False
+          | otherwise          = go $ f n
+
+truncatableLeft = directionTruncatable truncateLeft
+truncatableRight = directionTruncatable truncateRight
+
+truncatableBoth = liftA2 (&&) truncatableLeft truncatableRight
+
+problem37 = sum $ drop 4 $ take 15 $
+  filter truncatableBoth primes
