@@ -50,9 +50,17 @@
 
 -- How many hands does Player 1 win?
 
-import Data.List (sort, groupBy, subsequences, permutations)
--- import Data.Digits
-import Data.Char (digitToInt)
+import Data.List (sort, sortBy, group)
+import qualified Data.Map as M
+import Data.Map (Map)
+
+type Mult = Int
+type Val = Int
+type RankAndVals = (Rank, [Val])
+
+data Rank = HighCard | OnePair | TwoPairs | ThreeOfAKind | Straight
+  | Flush | FullHouse | FourOfAKind | StraightFlush | RoyalFlush
+  deriving (Ord, Eq, Show)
 
 testHands = 
   [ "5H 5C 6S 7S KD 2C 3S 8S 8D TD"
@@ -61,85 +69,71 @@ testHands =
   , "4D 6S 9H QH QC 3D 6D 7H QD QS"
   , "2H 2D 4C 4D 4S 3C 3D 3S 9S 9D" ]
 
-type Hand = [(Char, Char)]
+numMap :: Map Char Int
+numMap = M.fromList $ zip (['2'..'9'] ++ "TJQKA") [2..]
 
-data HandRank = HighCard | OnePair | TwoPairs | ThreeOfAKind | Straight
-  | Flush | FulHouse | FourOfAKind | StraightFlush | RoyalFlush
-  deriving (Enum, Ord, Eq, Show)
+-- |"5H 5C 6S 7S KD 2C 3S 8S 8D TD" -> (["5H","5C","6S","7S","KD"], ["2C", "3S", "8S", "8D", "TD"])
+roundToHands :: [Char] -> ([[Char]], [[Char]])
+roundToHands = splitAt 5 . words
 
-convertHandToNumbers :: Hand -> [Int]
-convertHandToNumbers h = map go h
-  where go (nc, s)
-          | nc `elem` ['1'..'9'] = digitToInt nc
-          | nc == 'T'            = 10
-          | nc == 'J'            = 11
-          | nc == 'Q'            = 12
-          | nc == 'K'            = 13
+-- |["5H","5C","6S","7S","KD"] -> ([(2,5),(1,13),(1,7),(1,6)],False)
+tuplesAndFlush :: [[Char]] -> ([(Mult, Val)], Bool)
+tuplesAndFlush h =
+  let tupled            = map (\[x,y] -> (x,y)) h
+      (numChars, suits) = unzip tupled
+      flushBool         = all (== head suits) $ tail suits
+      mult xs           = (length xs, head xs)
+      cardMultAndInt    = map mult $ group $ sort $ map (numMap M.!) numChars
+      cardMultAndInt'   = reverse $ sortBy cardSort cardMultAndInt
+  in (cardMultAndInt', flushBool)
+  where cardSort (m, c) (m', c') =
+          if m == m'
+          then compare c c'
+          else compare m m'
 
+-- |([(2,5),(1,13),(1,7),(1,6)],False) -> (OnePair,[5,13,7,6])
+rankAndVals :: ([(Mult, Val)], Bool) -> (Rank, [Val])
+rankAndVals h = (rank h, map snd $ fst h)
 
-testRound = words $ testHands !! 0
+rank :: ([(Mult, Val)], Bool) -> Rank
+rank (multValTuples, flush) =
+  let (mults, vals) = unzip multValTuples
+      straight = maximum vals - minimum vals == 4
+  in
+    case ((mults!!0, mults!!1)) of
+      (4, _) -> FourOfAKind
+      (3, 2) -> FullHouse
+      (3, _) -> ThreeOfAKind
+      (2, 2) -> TwoPairs
+      (2, _) -> OnePair
+      (_, _) ->
+        case (straight, flush) of
+          (True,  True)  -> if head vals == 14
+                            then RoyalFlush
+                            else StraightFlush
+          (True,  False) -> Straight
+          (False, True)  -> Flush
+          (False, False) -> HighCard
 
-testHand = take 5 testRound
+roundToRankAndVals :: [Char] -> (RankAndVals, RankAndVals)
+roundToRankAndVals = tupleMap (rankAndVals . tuplesAndFlush) . roundToHands
+  where tupleMap f (x, y) = (f x, f y)
 
-tupleCard :: String -> (Char, Char)
-tupleCard [x, y] = (x, y)
+compareRankAndVals :: (RankAndVals, RankAndVals) -> Ordering
+compareRankAndVals ((rank, vals), (rank', vals')) =
+  case (compare rank rank') of
+    GT -> GT
+    LT -> LT
+    EQ -> compare vals vals'
 
-tupledTestHand = map tupleCard testHand
+compareHands :: [Char] -> Ordering
+compareHands = compareRankAndVals . roundToRankAndVals
 
-isFlush :: Hand -> Bool
-isFlush (x:xs) = all (== snd x) $ map snd xs
+scoreRounds :: [[Char]] -> Int
+scoreRounds = length . filter (==GT) . map compareHands
 
-determineRank :: Hand -> HandRank
-determineRank h =
-  let straight = isStraight h
-      flush = isFlush h in
-  if straight && flush then
-    if any (\c -> snd c == 'A') h
-    then RoyalFlush
-    else StraightFlush
-  else
-    let subHands = groupByNumber h
-        sizes = groupSizes subHands
-        cases
-          | 4 `elem` sizes            = FourOfAKind
-          | all (`elem` sizes) [3, 2] = ThreeOfAKind
-          | flush                     = Flush
-          | straight                  = Straight
-          | 3 `elem` sizes            = ThreeOfAKind
-          | 2 `elem` sizes            = OnePair
-          | otherwise                 = HighCard
-    in cases
-
-canonical = concatMap permutations $ go 0 
-  ['2','3','4','5','6','7','8','9','T','J','Q','K','A']
-  where go 9 xs = []
-        go n  xs = take 5 xs : go (n+1) (tail xs)
-
-isStraight :: Hand -> Bool
-isStraight h = let numbers = map fst h in
-  numbers `elem` canonical
-
-groupByNumber :: Hand -> [Hand]
-groupByNumber = groupBy (\x y -> fst x == fst y)
-
-groupSizes :: [Hand] -> [Int]
-groupSizes = map length
-
-isFourOfAKind :: [Int] -> Bool
-isFourOfAKind = (4 `elem`)
-
--- royal flush
--- straight flush
-
--- 4, 1           fourOfAKind
--- 3, 2           fullHouse
-
--- straight
--- flush
-
--- 3, 1, 1        threeOfAKind
--- 2, 2, 1        twoPairs
--- 2, 1, 1, 1     onePair
--- 1, 1, 1, 1, 1  HighCard
-
-
+main :: IO ()
+main = do file <- readFile "./p054_poker.txt"
+          let rounds = lines file
+              score = scoreRounds rounds
+          print score
