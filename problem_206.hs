@@ -8,48 +8,36 @@
 import Data.Digits
 import Data.List
 
-nthDigit m 0 = m `mod` (10)
-nthDigit m n = nthDigit (m `div` 10) (n-1)
+a :: Int
+a = fromIntegral $ floor $ sqrt 1020304050607080900
 
-ithFilter :: Integral a => a -> [a] -> [a]
-ithFilter 0 = filter (\z -> 0 == nthDigit z 0)
-ithFilter i = filter (\z -> (10-i) == nthDigit z 2*i)
--- ithFilter 1 = filter (\z -> 9 == nthDigit z 2)
--- ithFilter 2 = filter (\z -> 8 == nthDigit z 2)
--- ithFilter 3 = filter (\z -> 7 == nthDigit z 2)
--- ithFilter 4 = filter (\z -> 6 == nthDigit z 2)
--- ithFilter 5 = filter (\z -> 5 == nthDigit z 2)
--- ithFilter 6 = filter (\z -> 4 == nthDigit z 2)
+b :: Int
+b = fromIntegral $ floor $ sqrt 1929394959697989990
 
-filtered = go 1 [ x^2 | x <- [0..] ]
-  where go 3 xs = xs
-        go i xs = go (i+1) ((ithFilter i) xs)
+-- addOneWhile n i =
+--   let n' = n + 10^i
+--   in if 
 
--- filter (\z -> 0 == nthDigit z 0) [ x^2 | x <- [0..] ]
--- filter (\z -> 9 == nthDigit z 2) [ x^2 | x <- [0..] ]
--- filter (\z -> 8 == nthDigit z 4) [ x^2 | x <- [0..] ]
--- filter (\z -> 7 == nthDigit z 6) [ x^2 | x <- [0..] ]
--- filter (\z -> 6 == nthDigit z 8) [ x^2 | x <- [0..] ]
--- filter (\z -> 5 == nthDigit z 10) [ x^2 | x <- [0..] ]
--- filter (\z -> 4 == nthDigit z 12) [ x^2 | x <- [0..] ]
--- filter (\z -> 3 == nthDigit z 14) [ x^2 | x <- [0..] ]
--- filter (\z -> 2 == nthDigit z 16) [ x^2 | x <- [0..] ]
--- filter (\z -> 1 == nthDigit z 18) [ x^2 | x <- [0..] ]
+-- 10..13 --> 100..169
+-- 101..106 -> 10201..11236
+-- 110..119
+
+-- take first digit, we know is 1
+-- take second digit, and if third can vary in a way allowable,
+-- test each okay value
+-- for each such value, try a third value that is okay
 
 
-isSquare x = (floor $ sqrt $ fromIntegral x)^2 == x
+filterIJ :: Int -> Int -> Int -> Bool
+filterIJ i j = (==j) . (!!i) . digits 10
 
--- 1 0, 2 2, 3 4
+formFilter :: Int -> Int -> Bool
+formFilter n xs = satisfies $ digits 10 xs
+  where satisfies xs = all (\i -> i == xs!!(2*(i-1))) [1..n]
 
-isOf n = let ns = digits 10 n in
-  if length ns == 19
-  then all (\i -> (ns!!(2*i)) == (i+1)) [0..9]
-  else False
-
-
-
+ints :: [Int]
 ints = [ unDigits 10 [1,a,2,b,3,c,4,d,5,e,6,f,7,g,8,h,9,0,0]
-       | a <- [0..9]
+       | a <- [0..6]
        , b <- [0..9]
        , c <- [0..9]
        , d <- [0..9]

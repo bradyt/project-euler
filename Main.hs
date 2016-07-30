@@ -1,4 +1,4 @@
 
-import Problem_47
+import Problem_092
 
-main = print main47
+main = main92

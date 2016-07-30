@@ -56,16 +56,17 @@ import Data.Ratio
 --                                 , let l = 2*i + 1]
 
 nthCorners 0 = [1]
-nthCorners n = let l = 2*n + 1 in [ l^2 - 2*n*d | d <- [3,2..0] ]
+nthCorners n = let l = 2*n + 1 in [ l^2 - 2*n*d | d <- [3,2,1] ]
 
 nthNoOfPrimes = fromIntegral . length . (filter isPrime) . nthCorners
 
-noOfPrimes n = sum $ map nthNoOfPrimes [0..n]
+noOfPrimes n = sum $ map nthNoOfPrimes [1..n]
 
 measureTo :: Integer -> Ratio Integer
 measureTo n = (noOfPrimes n) / (fromIntegral $ 1+4*n)
 
--- measuresToLessThanTenPercent = (<0.1) . measureTo
+measuresToLessThanTenPercent = (<0.1) . measureTo
 
--- problem58 n m = head $ filter measuresToLessThanTenPercent [(m*10^n)..]
+problem58 n m = head $ filter measuresToLessThanTenPercent [(m*10^n)..]
 
+-- 26241
