@@ -1,0 +1,10 @@
+
+(defun problem-001 ()
+  (interactive)
+  (let ((nums (number-sequence 1 999))
+        (s 0))
+    (dolist (x nums)
+      (if (or (eq 0 (% x 3))
+              (eq 0 (% x 5)))
+          (setq s (+ s x))))
+    (message (format "%s" s))))
