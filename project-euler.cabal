@@ -39,7 +39,7 @@ executable project-euler
   ghc-options:       -fno-warn-type-defaults
                      -fprof-auto
                      -rtsopts
-                     -- -prof
+                     -prof
 
 source-repository head
   type: git
