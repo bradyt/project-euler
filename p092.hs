@@ -1,4 +1,4 @@
-module Problem_092 (main92) where
+module P092 (main92) where
 
 -- Square digit chains
 -- Problem 92

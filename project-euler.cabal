@@ -18,7 +18,7 @@ cabal-version:       >=1.10
 
 executable project-euler
   main-is:             Main.hs
-  other-modules:       Problem_092
+  other-modules:       P092
   -- other-extensions:    
   build-depends:       QuickCheck
                      , base >=4.8 && <4.9
@@ -32,16 +32,16 @@ executable project-euler
                      , arithmoi >= 0.4.2.0
                      -- , hstats >= 0.3
                      , average >= 0.6.1
-                     -- , csv >= 0.1.2
+                     , csv >= 0.1.2
                      , array >= 0.5.1.0
                      , digits >= 0.2
   default-language:    Haskell2010
   ghc-options:       -fno-warn-type-defaults
                      -fprof-auto
                      -rtsopts
-                     -prof
+                     -- -prof
 
 source-repository head
   type: git
-  location: https://bitbucket.org:bradyt/haskell-project-euler/
+  location: https://bitbucket.org:bradyt/project-euler/
 

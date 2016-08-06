@@ -31,3 +31,65 @@
 ;; codes, and the knowledge that the plain text must contain common
 ;; English words, decrypt the message and find the sum of the ASCII
 ;; values in the original text.
+
+;; insert-file-contents
+;; (expand-file-name "p059_cipher.txt")
+;; string-
+;; (encode-char ?A 'ascii)
+;; (decode-char 'ascii ?A)
+;; (current-buffer)
+;; (type-of ?A)
+;; (- ?A ?A)
+;; (- "A" "A")
+;; (logxor (encode-char ?A 'ascii) (encode-char ?* 'ascii))
+;; (decode-char 'ascii (logxor (encode-char ?A 'ascii) (encode-char ?* 'ascii)))
+;; (message ?A)
+
+(let ((file-buffer (with-temp-buffer
+                     (insert-file-contents
+                      (expand-file-name "p059_cipher.txt"))
+                     (buffer-string))))
+  (mapcar 'string-to-number (split-string file-buffer ",")))
+
+(setq sample '(79 59 12 2 79 35 8 28 20 2 3 68))
+
+(defun get-every-third-from-n (n lis)
+  (let* ((len (length lis))
+         (result)
+         (thirds (number-sequence n len 3)))
+    (dolist (i thirds)
+      (add-to-list 'result (nth i lis) t))
+    result))
+      
+
+(setq sample-string (concat sample))
+;; "O;\fO#D"
+
+(defun check-triples ()
+  (let ((nums (number-sequence 0 (expt 2 21))))
+    nums))
+
+;; todo:
+;; group in threes
+;; mapcar some three string over it
+;; generate all triples
+;; enumerate over asciis
+;; for each decoder ring, can either look for letter frequency, or
+;; more simply, lack of control characters
+
+;; in that case, look for rotations that result in all elements being
+;; in
+
+;; (setq sample-triple '("
+
+;; (defun make-triples ()
+;;   (let ((nums (number-sequence 0 127))
+;;         (triples))
+;;     (dolist (i nums)
+;;       (dolist (j nums)
+;;         (dolist (k nums)
+;;           (add-to-list 'triples (list i j k)))))
+;;     triples))
+      
+;; (setq some (make-triples))
+

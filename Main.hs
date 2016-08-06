@@ -1,4 +1,4 @@
 
-import Problem_092
+import P092
 
 main = main92

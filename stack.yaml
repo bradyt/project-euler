@@ -12,7 +12,7 @@ extra-deps:
 - Numbers-0.2.1
 - average-0.6.1
 - hstats-0.3.0.1
-- text-1.2.2.1
+# - text-1.2.2.1
 
 # Override default flag values for local packages and extra-deps
 flags: {}
