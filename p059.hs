@@ -38,56 +38,53 @@ import Data.List
 import Data.Bits
 import Control.Applicative
 
-fiftyInts :: [Int]
-fiftyInts = [79,59,12,2,79,35,8,28,20,2,3,68,8,9,68,45,0,12,9,67,68,4
-            ,7,5,23,27,1,21,79,85,78,79,85,71,38,10,71,27,12,2,79,6,2
-            ,8,13,9,1,13,9,8]
-
--- 103, 42, 33
+type ASCII = Int
+type Triple = Int
+type Key = Int
 
 main :: IO ()
 main = do
   Right file <- parseCSVFromFile "./p059_cipher.txt"
   let ints = map read $ head file :: [Int]
-      key = getKey ints
-  print key
+  print $ take 50 $ concatBits ints
 
-applyKey :: [Int] -> [Int] -> [Int]
-applyKey encrypted key =
-  zipWith xor encrypted $ concat $ repeat key
+concatBits :: [ASCII] -> [Triple]
+concatBits []         = []
+concatBits [x]        = shift x 14 : []
+concatBits [x, y]     = shift x 14 + shift y 7 : []
+concatBits (x:y:z:zs) = shift x 14 + shift y 7 + z : concatBits zs
 
-getKey :: [Int] -> [Int]
-getKey encrypted = map (getIthKey encrypted) [0,1,2]
+splitBit :: Triple -> [ASCII]
+splitBit triple = [ shift triple (-14)
+                  , shift triple (-7) .&. 127
+                  , triple .&. 127 ]
 
-getIthKey :: [Int] -> Int -> Int
-getIthKey xs i =
-  let ys = everyThirdFromN i xs
-      mostCommon = snd $ maximum $ itemsToFreqTuple ys
-  in xor mostCommon $ ord 'e'
+ints :: [Triple]
+ints = [ 1301900, 42915, 134676, 33220, 132292, 737292, 156100
+       , 66437, 380289, 354261, 1288149, 1168138, 1166732, 42886
+       , 33805, 147597, 148548, 312193, 1170443, 345540, 98710
+       , 34560, 501633, 508695, 312576, 1206188, 42899, 101956
+       , 262928, 255907, 132552, 1165066, 59276, 42899, 101956
+       , 524288 ,1206230, 1168257, 1166341, 337805, 157584, 247108
+       , 83203, 229514, 229507, 1166349, 312260, 524288, 1206231
+       , 1168257 ]
 
-everyThirdFromN :: Int -> [Int] -> [Int]
-everyThirdFromN n xs = let ys = drop n xs in go ys
-  where go [] = []
-        go [x] = [x]
-        go [x, y] = [x]
-        go [x, y, z] = [x]
-        go (x:y:z:zs) = x : go zs
+keys = [0..2^21-1]
 
-itemsToFreqTuple :: [Int] -> [(Int, Int)]
-itemsToFreqTuple = map tuple . group . sort
-  where tuple ys = (length ys, head ys)
+applyKey :: Triple -> [Triple] -> [Triple]
+applyKey key ints = map (xor key) ints
 
--- a = [98,99,100,101,102,114,120]
--- b = [106,107,108,109,110,112,122]
--- c = [96,102,103,123]
+bitAndAtI :: Triple -> ASCII -> Int -> Bool
+bitAndAtI triple n i = shift triple (7*i) .&. n /= 0
 
--- consider a list, constrain on keys so that we get printable
--- characters, then for viable candidate, check that 'e' (101) is common. 
+checkTriplePrintable :: Triple -> Bool
+checkTriplePrintable triple = any (bitAndAtI triple 96) [0..2]
 
-checkKey :: [Int] -> Int -> Maybe String
-checkKey column key =
-  let result = map (xor key) column
-  in if all (`elem` [32..126]) result
-     then Just $ map chr result
-     else Nothing
-  
+isCharE :: ASCII -> Bool
+isCharE int = int `elem` map ord ['E', 'e']
+
+countEChars :: Triple -> Int
+countEChars triple = let asciis = splitBit triple in
+  length $ filter isCharE asciis
+
+-- getKeys :: [Key]
