@@ -60,6 +60,9 @@ maybeStringAndKey asciis key =
      then Just (candidate, key)
      else Nothing
 
+keyAndTest :: [ASCII] -> Key -> ([ASCII] -> Bool) -> Bool
+keyAndTest asciis key test = test $ applyKey asciis key
+
 splitKey :: Key -> [ASCII]
 splitKey key = [ shift key (-14)
                , shift key (-7) .&. 127

@@ -7,43 +7,46 @@
 
 import Data.Digits
 import Data.List
+import Control.Monad
 
-a :: Int
+a :: Integral a => a
 a = fromIntegral $ floor $ sqrt 1020304050607080900
 
-b :: Int
+b :: Integral a => a
 b = fromIntegral $ floor $ sqrt 1929394959697989990
 
--- addOneWhile n i =
---   let n' = n + 10^i
---   in if 
+nthDigit :: Integral a => a -> a -> a
+nthDigit n x = div x (10^n) `mod` 10
 
--- 10..13 --> 100..169
--- 101..106 -> 10201..11236
--- 110..119
+nthDigitM :: Integral a => a -> a -> a -> Bool
+nthDigitM n m = (==m) . (nthDigit n)
 
--- take first digit, we know is 1
--- take second digit, and if third can vary in a way allowable,
--- test each okay value
--- for each such value, try a third value that is okay
+concatSqr :: Integral a => [a] -> a
+concatSqr = (^2) . (unDigits 10)
 
+guarded = do
+  x0 <- [0..9]
+  guard (nthDigitM 0 0 (x0^2))
+  x1 <- [0..9]
+  x2 <- [0..9]
+  guard (nthDigitM 2 9 (concatSqr [x2,x1,x0]))
+  x3 <- [0..9]
+  x4 <- [0..9]
+  guard (nthDigitM 4 8 (concatSqr [x4,x3,x2,x1,x0]))
+  x5 <- [0..9]
+  x6 <- [0..9]
+  guard (nthDigitM 6 7 (concatSqr [x6,x5,x4,x3,x2,x1,x0]))
+  x7 <- [0..9]
+  x8 <- [0..9]
+  guard (nthDigitM 8 6 (concatSqr [x8,x7,x6,x5,x4,x3,x2,x1,x0]))
+  x9 <- [0..9]
+  guard ((<=1389026623) $ unDigits 10 [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0])
+  guard (nthDigitM 10 5 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
+  guard (nthDigitM 12 4 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
+  guard (nthDigitM 14 3 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
+  guard (nthDigitM 16 2 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
+  guard (nthDigitM 18 1 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
+             
+  return $ unDigits 10 [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]
 
-filterIJ :: Int -> Int -> Int -> Bool
-filterIJ i j = (==j) . (!!i) . digits 10
-
-formFilter :: Int -> Int -> Bool
-formFilter n xs = satisfies $ digits 10 xs
-  where satisfies xs = all (\i -> i == xs!!(2*(i-1))) [1..n]
-
-ints :: [Int]
-ints = [ unDigits 10 [1,a,2,b,3,c,4,d,5,e,6,f,7,g,8,h,9,0,0]
-       | a <- [0..6]
-       , b <- [0..9]
-       , c <- [0..9]
-       , d <- [0..9]
-       , e <- [0..9]
-       , f <- [0..9]
-       , g <- [0..9]
-       , h <- [0,2,4,6,8]
-       -- , i <- [0..9]
-       ]
+p206 = (^2) $ head guarded
