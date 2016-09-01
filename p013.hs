@@ -128,3 +128,5 @@ firstTenDigits n = n `div` (10 ^ (lengthOfNumber n - 10))
 
 problem13 :: Integer
 problem13 = firstTenDigits largeSum
+
+main = print problem13

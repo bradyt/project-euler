@@ -35,3 +35,5 @@ translate _ = error "not defined"
 
 problem17 :: Int
 problem17 = sum $ map (length . translate) [1..1000]
+
+main = print problem17

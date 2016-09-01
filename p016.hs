@@ -19,3 +19,5 @@ addDigits n = go n 0
               
 problem16 :: Int
 problem16 = addDigits $ 2^1000
+
+main = print problem16

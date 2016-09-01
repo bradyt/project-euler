@@ -1,7 +1,4 @@
 
--- import qualified Data.Map as Map
-import Data.Numbers.Primes
-
 -- Summation of primes
 -- Problem 10
 
@@ -23,6 +20,9 @@ import Data.Numbers.Primes
 -- problem10 :: Integer
 -- problem10 = sum $ sieve [2..2*10^6-1]
 
+import Math.NumberTheory.Primes
+
 problem10 :: Integer
 problem10 = sum $ takeWhile (< 2 * 10^6) primes
 
+main = print problem10

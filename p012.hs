@@ -38,3 +38,5 @@ searchForNumber = go 1
           if (numOfFactors $ triangularNumber n) > 500
           then triangularNumber n
           else go $ n + 1
+
+main = print searchForNumber

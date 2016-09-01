@@ -37,3 +37,5 @@ findMax k = go (1, 1, 1)
           | n >= k              = best
           | propogate n > maxim = go (n+1, n, propogate n)
           | otherwise           = go (n+1, best, maxim)
+
+main = print $ findMax 10^6

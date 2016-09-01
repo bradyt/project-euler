@@ -5,9 +5,8 @@
 -- 1_2_3_4_5_6_7_8_9_0,
 -- where each “_” is a single digit.
 
-import Data.Digits
-import Data.List
-import Control.Monad
+import Data.Digits (digits, unDigits)
+import Control.Monad (guard, liftM2)
 
 a :: Integral a => a
 a = fromIntegral $ floor $ sqrt 1020304050607080900
@@ -26,27 +25,29 @@ concatSqr = (^2) . (unDigits 10)
 
 guarded = do
   x0 <- [0..9]
-  guard (nthDigitM 0 0 (x0^2))
+  guard . nthDigitM 0 0 $ x0^2
   x1 <- [0..9]
   x2 <- [0..9]
-  guard (nthDigitM 2 9 (concatSqr [x2,x1,x0]))
+  guard . nthDigitM 2 9 $ concatSqr [x2,x1,x0]
   x3 <- [0..9]
   x4 <- [0..9]
-  guard (nthDigitM 4 8 (concatSqr [x4,x3,x2,x1,x0]))
+  guard . nthDigitM 4 8 $ concatSqr [x4,x3,x2,x1,x0]
   x5 <- [0..9]
   x6 <- [0..9]
-  guard (nthDigitM 6 7 (concatSqr [x6,x5,x4,x3,x2,x1,x0]))
+  guard . nthDigitM 6 7 $ concatSqr [x6,x5,x4,x3,x2,x1,x0]
   x7 <- [0..9]
   x8 <- [0..9]
-  guard (nthDigitM 8 6 (concatSqr [x8,x7,x6,x5,x4,x3,x2,x1,x0]))
+  guard . nthDigitM 8 6 $ concatSqr [x8,x7,x6,x5,x4,x3,x2,x1,x0]
   x9 <- [0..9]
-  guard ((<=1389026623) $ unDigits 10 [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0])
-  guard (nthDigitM 10 5 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
-  guard (nthDigitM 12 4 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
-  guard (nthDigitM 14 3 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
-  guard (nthDigitM 16 2 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
-  guard (nthDigitM 18 1 (concatSqr [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]))
+
+  let final = unDigits 10 [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]
+  guard $ liftM2 (&&) (>=a) (<=b) final
+  guard . and $ map ($ final^2) [ nthDigitM 10 5
+                                , nthDigitM 12 4
+                                , nthDigitM 14 3
+                                , nthDigitM 16 2
+                                , nthDigitM 18 1 ]
              
-  return $ unDigits 10 [x9,x8,x7,x6,x5,x4,x3,x2,x1,x0]
+  return final
 
 p206 = (^2) $ head guarded
