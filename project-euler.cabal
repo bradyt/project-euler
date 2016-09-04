@@ -6,26 +6,41 @@ license:             OtherLicense
 license-file:        LICENSE
 author:              Brady Trainor
 maintainer:          brady@bradyt.com
--- copyright:           
 category:            (none)
 build-type:          Simple
--- extra-source-files:  
 cabal-version:       >=1.10
 
--- library
---   exposed-modules:     Problem_092
---   -- other-modules:       Problem_92
+-- library: 
+--   build-depends:       QuickCheck
+--                      , base >=4.8 && <4.9
+--                      , containers >= 0.5.6.2
+--                      , mtl >= 2.2.1
+--                      , split >= 0.2.3.1
+--                      , text >= 1.2.2.1
+--                      -- , parsec >= 3.1.11
+--                      -- , parsers >= 0.12.3
+--                      , transformers >= 0.4.2.0
+--                      , vector >= 0.11.0.0
+--                      -- , Numbers >= 0.2.1
+--                      , arithmoi >= 0.4.2.0
+--                      -- , hstats >= 0.3
+--                      , average >= 0.6.1
+--                      , csv >= 0.1.2
+--                      , array >= 0.5.1.0
+--                      , digits >= 0.2
+--                      , combinat >= 0.2.8.1
+--   default-language:    Haskell2010
+--   build-depends:       base >= 4.7 && < 5
 
-executable project-euler
-  main-is:             Main.hs
-  other-modules:       P092
-  -- other-extensions:    
+executable p023
+  main-is:             p023.hs
+  default-language:    Haskell2010
   build-depends:       QuickCheck
                      , base >=4.8 && <4.9
                      , containers >= 0.5.6.2
                      , mtl >= 2.2.1
                      , split >= 0.2.3.1
-                     , text >= 1.2.2.1
+                     -- , text >= 1.2.2.1
                      -- , parsec >= 3.1.11
                      -- , parsers >= 0.12.3
                      , transformers >= 0.4.2.0
@@ -33,16 +48,18 @@ executable project-euler
                      -- , Numbers >= 0.2.1
                      , arithmoi >= 0.4.2.0
                      -- , hstats >= 0.3
-                     , average >= 0.6.1
+                     -- , average >= 0.6.1
                      , csv >= 0.1.2
                      , array >= 0.5.1.0
                      , digits >= 0.2
-                     , combinat >= 0.2.8.1
-  default-language:    Haskell2010
+                     -- , combinat >= 0.2.8.1
   ghc-options:       -fno-warn-type-defaults
-                     -fprof-auto
-                     -rtsopts
+                     -O2
+                     -- -fprof-auto
+                     -- -rtsopts=-p
                      -- -prof
+  -- ghc-prof-options:  -rtsopts=all
+  build-depends:       base >= 4.7 && < 5
 
 source-repository head
   type: git

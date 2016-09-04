@@ -1,4 +1,4 @@
-module P092 (main92) where
+-- module P092 (main92) where
 
 -- Find starting numbers below 10 million that arrive at 89. 
 

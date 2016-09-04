@@ -24,3 +24,5 @@ isAmicable n = n == (properDivisorSum (properDivisorSum n))
 
 problem21 :: Integer
 problem21 = sum $ Prelude.filter isAmicable [3..10000]
+
+main = print problem21

@@ -19,3 +19,5 @@ addDigits n = go n 0
 
 problem20 :: Int
 problem20 = addDigits $ product [1..100]
+
+main = print problem20

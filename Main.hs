@@ -1,4 +1,6 @@
 
-import P092
+-- import P092
 
-main = main92
+-- main = main92
+
+main = print "hello"

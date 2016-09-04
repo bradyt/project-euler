@@ -8,7 +8,7 @@
 #     racket "${f}"
 # done
 
-for f in p01[0-9].hs
+for f in p02[0-9].hs
 do
     echo -n "${f}: "
     # PATH=/usr/local/bin:$PATH python3 "$f"

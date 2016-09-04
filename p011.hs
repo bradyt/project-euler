@@ -4,7 +4,7 @@
 -- In the 20×20 grid below, four numbers along a diagonal line have
 -- been marked in red.
 
-import Data.Maybe (catMaybes)
+import Data.Maybe (catMaybes, mapMaybe)
 
 rows = 
   [ "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08"
@@ -50,7 +50,7 @@ getValue (x, y) = if all ((==0) . (`div` 20)) [x, y]
 indices :: [(Int, Int)]
 indices = [ (x, y) | x <- [0..19], y <- [0..19] ]
 
-p011 = maximum $ map product $ catMaybes $
-  map (sequence . map getValue) $ makeQuad <$> indices <*> directions
+p011 = maximum $ map product $ mapMaybe (traverse getValue) $
+  makeQuad <$> indices <*> directions
 
 main = print p011
