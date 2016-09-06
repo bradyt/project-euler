@@ -15,11 +15,14 @@
 -- Find the sum of all the numbers that can be written as the sum of
 -- fifth powers of their digits.
 
-import Data.Char (ord)
+import Data.Digits
+import Control.Applicative
 
-sumFifthPowerOfDigits n = sum $
-  map ((^5) . (subtract 48) . ord) $ show n
+sumFifthPowerOfDigits :: Integral a => a -> a
+sumFifthPowerOfDigits = sum . map (^5) . digits 10
 
-fixedPoint n = n == sumFifthPowerOfDigits n
+fixedPoint = (==) <*> sumFifthPowerOfDigits
 
-problem30 = sum $ filter fixedPoint [2..300000]
+problem30 = sum $ filter fixedPoint [13..300000]
+
+main = print problem30

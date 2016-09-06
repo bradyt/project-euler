@@ -12,32 +12,18 @@
 
 -- How many different ways can £2 be made using any number of coins?
 
-evaluate xs = sum $ zipWith (*) xs [200, 100, 50, 20, 10, 5, 2, 1]
+hyperplane :: [()]
+hyperplane = do a <- [0,200]
+                b <- [0,100..200-a]
+                c <- [0,50..200-a-b]
+                d <- [0,20..200-a-b-c]
+                e <- [0,10..200-a-b-c-d]
+                f <- [0,5..200-a-b-c-d-e]
+                g <- [0,2..200-a-b-c-d-e-f]
+                return ()
 
-hyperplane = [ [a, b, c, d, e, f, g] | a <- [0,1]
-                                     , b <- [0..(200-200*a) `div` 100]
-                                     , c <- [0..(200-200*a-100*b) `div` 50]
-                                     , d <- [0..(200-200*a-100*b-50*c) `div` 20]
-                                     , e <- [0..(200-200*a-100*b-50*c-20*d) `div` 10]
-                                     , f <- [0..(200-200*a-100*b-50*c-20*d-10*e) `div` 5]
-                                     , g <- [0..(200-200*a-100*b-50*c-20*d-10*e-5*f) `div` 2] ]
+p031 :: Int
+p031 = length hyperplane
 
-testEqualTo200 xs = (==200) $ evaluate xs
-
--- (1,0,0,0,0,0,0,0)
--- (0,2,0,0,0,0,0,0)
--- (0,1,2,0,0,0,0,0)
--- (0,1,1,2,0,1,0,0)
-
-type TwoPound = Int
-type OnePound = Int
-type FiftyP = Int
-type TwentyP = Int
-type TenP = Int
-type FiveP = Int
-type TwoP = Int
-type OneP = Int
-
-data Purse =
-  Purse TwoPound OnePound FiftyP TwentyP TenP FiveP TwoP OneP
-  deriving (Eq, Show)
+main :: IO ()
+main = print p031

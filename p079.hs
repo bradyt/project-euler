@@ -13,24 +13,31 @@
 -- analyse the file so as to determine the shortest possible secret
 -- passcode of unknown length.
 
+import Data.Digits
+import Data.List
+
 main :: IO ()
 main = do file <- readFile "./p079_keylog.txt"
           let ints = map read $ lines file :: [Int]
-          print ints
+          print $ p079 ints
 
-ints = [319,680,180,690,129,620,762,689,762,318,368,710,720,710,629,168,160,689,716,731,736,729,316,729,729,710,769,290,719,680,318,389,162,289,162,718,729,319,790,680,890,362,319,760,316,729,380,319,728,716]
+p079 :: Integral a => [a] -> a
+p079 ints = let intLists = nub . sort $ map (digits 10) ints
+                secNums = filter exists [0..9]
+                  where exists n = any (n `elem`) intLists
+            in unDigits 10 $ nextUntil ((secNums, []), intLists)
 
-strings = ["319","680","180","690","129","620","762","689","762","318","368","710","720","710","629","168","160","689","716","731","736","729","316","729","729","710","769","290","719","680","318","389","162","289","162","718","729","319","790","680","890","362","319","760","316","729","380","319","728","716"]
+next :: Integral a => (([a], [a]), [[a]]) -> (([a], [a]), [[a]])
+next ((xs, ys), zss) = ((xs', ys ++ [x]), map (filter (/=x)) zss )
+  where x = head $ filter (check zss) xs
+        xs' = filter (/=x) xs
 
-string = "319680180690129620762689762318368710720710629168160689716731736729316729729710769290719680318389162289162718729319790680890362319760316729380319728716"
+nextUntil :: Integral a => (([a], [a]), [[a]]) -> [a]
+nextUntil (([], ys), _) = ys
+nextUntil t             = nextUntil $ next t
 
--- 73162890
+onlyHead :: Eq a => a -> [a] -> Bool
+onlyHead x = (||) <$> null <*> notElem x . tail
 
--- did by hand
-
--- 6 < 2
-
--- 7 < 3
-
--- 3 < 1
-
+check :: Integral a => [[a]] -> a -> Bool
+check zss n = all (onlyHead n) zss

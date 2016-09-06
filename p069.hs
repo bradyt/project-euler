@@ -10,3 +10,5 @@ import Math.NumberTheory.Primes
 
 -- product $ flip take primes 7
 -- 510510
+
+main = print "no solution"

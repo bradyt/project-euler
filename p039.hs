@@ -17,12 +17,11 @@ import Control.Monad
 type Tuple a = (a, a, a)
 
 rightTriangles :: (Integral a) => [(a, a, a)]
-rightTriangles = do
-  a <- [1..1000]
-  b <- [a..1000]
-  let c = floor $ sqrt $ fromIntegral (a^2 + b^2)
-  guard (a^2 + b^2 == c^2)
-  return (a, b, c)
+rightTriangles = do a <- [1..1000]
+                    b <- [a..1000]
+                    let c = floor $ sqrt $ fromIntegral (a^2 + b^2)
+                    guard (a^2 + b^2 == c^2)
+                    return (a, b, c)
 
 sumTuple (a, b, c) = a + b + c
 
@@ -34,6 +33,9 @@ grouped = groupBy groupByThis rightTriangles
 
 bestGroup = maximumBy
   (\ts ts' -> compare (length ts) (length ts')) grouped
+
+-- main = print bestGroup
+main = print "4 seconds"
 
 -- prepopulatedPerimeterMap :: (Enum a, Ord a, Num a) => M.Map a [b]
 -- prepopulatedPerimeterMap = M.fromList $ zip [1..1000] $ repeat []

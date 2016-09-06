@@ -16,3 +16,5 @@ reverseAndAdd n = n + reverseInt n
 isPalindrome n = n == reverseInt n
 
 problem55 = length $ filter (lychrel 0) [1..9999]
+
+main = print problem55

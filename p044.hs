@@ -33,3 +33,6 @@ array = do
   return (p m)
 
 problem44 = head array
+
+-- main = print problem44
+main = print "15 seconds"

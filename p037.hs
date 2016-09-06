@@ -37,3 +37,5 @@ truncatableBoth = liftA2 (&&) truncatableLeft truncatableRight
 
 problem37 = sum $ drop 4 $ take 15 $
   filter truncatableBoth primes
+
+main = print problem37

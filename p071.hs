@@ -43,3 +43,6 @@ decrementPair :: Pair -> Pair
 decrementPair (x, y) = if x % y > 3 % 7
                        then (x - 1, y)
                        else (x, y - 1)
+
+-- main = print $ fst $ p071 $ 10^6
+main = print "19 seconds"

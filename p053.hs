@@ -24,3 +24,5 @@ comb n r = product [r+1..n] `div` factorial (n-r)
 nCrValues = [ comb n r | n <- [1..100], r <- [0..n] ]
 
 problem53 = length $ filter (>10^6) nCrValues
+
+main = print problem53

@@ -49,3 +49,6 @@ checkFish f netSlack s =
        case (checkNetSlice fish s) of
          Left fish' -> fish'
          Right netSlack' -> checkFish f (I.union netSlack $ I.fromList netSlack') (s+1)
+
+-- main = print escapedFish
+main = print "4 seconds"

@@ -33,3 +33,5 @@ ne k = ne (k-2) + 4 * (k-1)
 kthContribution k = 4 * ne k - 6 * (k-1)
 
 problem28 = (1+) $ sum $ map kthContribution [3,5..1001]
+
+main = print problem28

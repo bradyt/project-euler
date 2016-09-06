@@ -11,3 +11,8 @@
 -- primes concatenate to produce another prime.
 
 import Math.NumberTheory.Primes
+
+p060 = undefined
+
+-- main = print p060
+main = print "no solution"

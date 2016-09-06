@@ -17,3 +17,5 @@ pandigitals = map (unDigits 10) $
 
 problem41 :: Integer
 problem41 = maximum $ filter isPrime pandigitals
+
+main = print problem41

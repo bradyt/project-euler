@@ -19,3 +19,7 @@ isDigitFactorial :: Int -> Bool
 isDigitFactorial 1 = False
 isDigitFactorial 2 = False
 isDigitFactorial n = (==n) $ sum $ map factorial $ intToList n
+
+main = print $ sum $ take 2 $ filter isDigitFactorial [10..]
+
+-- main = print p034

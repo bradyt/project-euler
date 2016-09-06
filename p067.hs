@@ -45,3 +45,4 @@ maximumTotal xss = foldr1 combiningFunction xss
 
 -- problem18 :: [Int]
 -- problem18 = maximumTotal largerTriangle
+

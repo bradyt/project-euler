@@ -38,3 +38,6 @@ onlyLongerElems n = filter (\xs -> length xs >= 8) $ replaceIntOverSubsequences 
 problem51 = mapM_ print $
   take 10 $ filter (not . null) $
   map (onlyLongerElems . fromIntegral) primes
+
+-- main = problem51
+main = print "33 seconds"

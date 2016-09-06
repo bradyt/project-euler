@@ -34,4 +34,8 @@ candidates = [ [0,1,2,3,3,4,5,5,6,7,8,9]
 getSmallest =
   -- take 5 $ 
   -- filter (\x -> (sort . digits 10 x) `elem` candidates) $
-  filter ((`elem` candidates) . sort . digits 10) $ cubeList $ someNumbers 3
+  head $ filter ((`elem` candidates) . sort . digits 10) $ cubeList $ someNumbers 3
+
+p062 = getSmallest
+
+main = print p062

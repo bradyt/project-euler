@@ -47,3 +47,6 @@ winners = concatMap checkForEachPair array
 
 result :: Ratio Int
 result = product $ map makeRatio winners
+
+-- main = print problem32
+main = print $ denominator result

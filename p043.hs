@@ -39,3 +39,6 @@ isSubstringDivisible :: [Integer] -> Bool
 isSubstringDivisible ns = all
   (\i -> (substrings!!i) `mod` (primes!!i) == 0) [0..6]
   where substrings = tail $ getThreeSubstrings ns
+
+-- main = print problem43
+main = print "55 seconds"

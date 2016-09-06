@@ -38,3 +38,6 @@ moreNumerator r =
 
 problem57 = length $
   filter moreNumerator $ map frac [0..999]
+
+-- main = print problem57
+main = print "75 seconds"

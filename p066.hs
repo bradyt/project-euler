@@ -11,3 +11,5 @@
 -- primes concatenate to produce another prime.
 
 -- 
+
+main = print "no solution"

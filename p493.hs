@@ -21,10 +21,10 @@ fac = factorial
 p :: Int -> Ratio Int
 p 0 = 0
 p 1 = 0
-p 2 = p' 10 * p' 10
-p 3 = p' 10 * p' 9 * p' 1 + p' 10 * p' 8 * p' 2 -- + ...
+p 2 = p 10 * p 10
+p 3 = p 10 * p 9 * p 1 + p 10 * p 8 * p 2 -- + ...
 
-
+main = print "no solution"
 
 -- multinomial? 
 

@@ -20,3 +20,5 @@ d n = (!!(n-1)) $ concatMap (digits 10) [1..]
 indices = map (10^) [0..6]
 
 problem40 = product $ map d indices
+
+main = print problem40

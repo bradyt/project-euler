@@ -9,8 +9,12 @@
 -- Considering natural numbers of the form, a^b, where a, b < 100, what
 -- is the maximum digital sum?
 
-import Data.Digits
+import Data.Digits (digits)
 
-digitSum = sum . (digits 10)
+p056 :: Integer
+p056 = maximum $ map (sum . digits 10) $ do a <- [1..99]
+                                            b <- [1..99]
+                                            return $ a^b
 
-space = [ a^b | a <- [0..99], b <- [0..99] ]
+main :: IO ()
+main = print p056

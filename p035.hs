@@ -44,3 +44,6 @@ arrayForOneMillion = foldl (flip updateArray) M.empty $
   takeWhile (<10^6) $ map fromIntegral primes
 countForOneMillion = M.foldr (\(xs, ys) s -> if xs == [0] then s + length ys else s) 0
   arrayForOneMillion
+
+-- main = print countForOneMillion
+main = print "5 seconds"

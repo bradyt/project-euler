@@ -29,6 +29,7 @@ maybePandigital n s = let (s0,  s1)  = splitAt 5 s
                          then Just z
                          else Nothing
 
+pandigitals :: [Int]
 pandigitals = do
   let xs = map (maybePandigital 1) permsOfNine
       ys = map (maybePandigital 2) permsOfNine
@@ -37,3 +38,6 @@ pandigitals = do
     map fromJust $ filter isJust zs
 
 problem32 = sum pandigitals
+
+-- main = print problem32
+main = print "16 seconds"

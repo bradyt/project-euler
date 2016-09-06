@@ -42,3 +42,5 @@ problem38 =
   filter hasAllNine $
   filter ((==9) . length) $
   map spreadIntegers multiplyThem
+
+main = print problem38

@@ -51,3 +51,5 @@ guarded = do
   return final
 
 p206 = (^2) $ head guarded
+
+main = print p206

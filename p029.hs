@@ -21,3 +21,5 @@ import Data.List (group, sort)
 
 problem29 = length $
   map head $ group $ sort [ a^b | a <- [2..100], b <- [2..100] ]
+
+main = print problem29

@@ -7,12 +7,17 @@
 -- How many n-digit positive integers exist which are also an nth
 -- power?
 
-import Data.Digits
-import Control.Monad
+import Data.Digits (digits)
 
-so s = do
-  x <- [1..s :: Integer]
-  n <- [0..s-x]
-  let y = x^n
-  guard (length (digits 10 y) == fromIntegral n)
-  return y
+-- 10^(k-1) ≤ nᵏ < 10ᵏ
+-- (10/n)ᵏ ≤ 10
+-- k*log(10/n) ≤ 1
+-- k*(1-log n) ≤ 1
+-- k ≤ 1/(1-log n) ≤ 1/(1-log 9) < 22
+
+check :: Integral a => a -> a -> Bool
+check n k = (==k) . (fromIntegral . length) . digits 10 $ n^k
+
+p063 = length . filter id $ check <$> [0..9] <*> [0..21]
+
+main = print p063

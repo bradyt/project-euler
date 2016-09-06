@@ -23,3 +23,7 @@ generateLongSums = go 0 0
              else go l (i+1)
 
 getLargestSum = last $ takeWhile (<10^6) generateLongSums
+
+-- main = print getLargestSum
+main = print "5 seconds"
+

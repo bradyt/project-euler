@@ -35,3 +35,5 @@ array = do
   return ti
 
 problem45 = head array
+
+main = print problem45

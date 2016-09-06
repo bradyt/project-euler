@@ -23,50 +23,29 @@
 -- the ratio of primes along both diagonals first falls below 10%?
 
 import Math.NumberTheory.Primes
-import Data.Ratio
 
--- index by bottom right diagonal, so
+corners :: (Eq a, Num a) => a -> [a]
+corners 0 = [1]
+corners n = map (\d -> l^2 - 2*n*d) [3, 2, 1]
+  where l = 2*n + 1
 
--- | i | l | d0 |   |
--- | 0 | 1 | 1  |   |
--- | 1 | 3 | 9  |   |
--- | 2 | 5 | 25 |   |
--- | 3 | 7 | 36 |   |
+next :: Integral a => (a, a) -> (a, a)
+next (n, t) = ( n + 1
+              , t + (countPrimes . corners $ n + 1) )
 
--- l = 2*i + 1
--- d0 = l^2
--- dj = d0 + 
+nextWhile :: Integral a => (a, a) -> a
+nextWhile (n, t) = if ratio n t < 0.1 && n > 0
+                   then n
+                   else nextWhile $ next (n, t)
 
--- |  3 |  5 |  7 |  9 |
--- | 13 | 17 | 21 | 25 |
--- | 31 | 37 | 43 | 49 |
+countPrimes :: Integral a => [a] -> a
+countPrimes = fromIntegral . length . filter (isPrime . fromIntegral)
 
--- | +2 | +2 |
--- | +4 | +4 |
--- | +6 | +6 | 
+ratio :: (Integral a, Fractional b) => a -> a -> b
+ratio n t = fromIntegral t / fromIntegral (1 + 4 * n)
 
--- (///) n d =
---   (fromIntegral n) / (fromIntegral d)
+p058 :: Integral a => a
+p058 = 1 + 2 * (nextWhile (0, 0))
 
--- diagsTo :: Integer -> [Integer]
--- -- diagsTo 0 = [1]
--- -- diagsTo n = (diagsTo (n-1)) ++
--- --   [ l^2 - 2*n*d | d <- [3,2..0], let l = 2*n + 1 ]
--- diagsTo n = 1 : [ l^2 - 2*i*d | i <- [1..n], d <- [0..3]
---                                 , let l = 2*i + 1]
-
-nthCorners 0 = [1]
-nthCorners n = let l = 2*n + 1 in [ l^2 - 2*n*d | d <- [3,2,1] ]
-
-nthNoOfPrimes = fromIntegral . length . (filter isPrime) . nthCorners
-
-noOfPrimes n = sum $ map nthNoOfPrimes [1..n]
-
-measureTo :: Integer -> Ratio Integer
-measureTo n = (noOfPrimes n) / (fromIntegral $ 1+4*n)
-
-measuresToLessThanTenPercent = (<0.1) . measureTo
-
-problem58 n m = head $ filter measuresToLessThanTenPercent [(m*10^n)..]
-
--- 26241
+main :: IO ()
+main = print p058

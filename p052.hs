@@ -16,3 +16,6 @@ multipleIsPermutation x n = n*x `elem` permsOfX
 forAllSix x = all (multipleIsPermutation x) [2..6]
 
 findFirst = head $ filter forAllSix [2..]
+
+-- main = print findFirst
+main = print "32 seconds"
