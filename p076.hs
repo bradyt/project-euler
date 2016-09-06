@@ -14,9 +14,9 @@
 -- How many different ways can one hundred be written as a sum of at
 -- least two positive integers?
 
--- import Math.Combinat.Partitions.Integer
+import Math.Combinat.Partitions.Integer
 
--- p076 = (countPartitions 100) - 1
+p076 = (countPartitions 100) - 1
 
--- main = print p076
-main = print "external dependencies"
+main = print p076
+-- main = print "external dependencies"
