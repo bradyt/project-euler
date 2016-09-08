@@ -21,23 +21,17 @@
 -- In the first one-thousand expansions, how many fractions contain a
 -- numerator with more digits than denominator?
 
--- 1 + 1/(2 + 1/(2 + 2/(2 +
+import Data.Ratio (Ratio, numerator, denominator)
+import Data.Traversable (mapAccumL)
+import Math.NumberTheory.Logarithms (integerLogBase)
+import Data.Function (on)
 
-import Data.Ratio
-import Data.Digits
+numLrgr :: Ratio Integer -> Bool
+numLrgr = ((>) `on` integerLogBase 10) <$> numerator <*> denominator
 
-frac :: Int -> Ratio Integer
-frac i = 1 + 1/(go i)
-  where go 0 = 2
-        go i = 2 + 1/(go $ i - 1)
+p057 :: Int
+p057 = length . filter numLrgr . snd $ mapAccumL go 2 [0..999]
+  where go x _ = (2 + 1/x, 1 + 1/x)
 
-moreNumerator :: Ratio Integer -> Bool
-moreNumerator r =
-  (digitLength $ numerator r) > (digitLength $ denominator r)
-  where digitLength = length . (digits 10)
-
-problem57 = length $
-  filter moreNumerator $ map frac [0..999]
-
--- main = print problem57
-main = print "75 seconds"
+main :: IO ()
+main = print p057
