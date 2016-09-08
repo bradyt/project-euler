@@ -8,16 +8,20 @@
 -- Find the largest palindrome made from the product of two 3-digit
 -- numbers.
 
+import Math.NumberTheory.Primes.Factorisation
+import Data.Digits
+
 isPalindromic :: Int -> Bool
-isPalindromic n = show n == (reverse $ show n)
+isPalindromic n = digs == reverse digs
+  where digs = digits 10 n
 
 threeDigits :: (Num a, Enum a) => [a]
-threeDigits = [100..999]
+threeDigits = reverse [100..999]
 
 products :: [Int] -> [Int]
-products xs = [ x*y | x <- xs, y <- xs ]
+products xs = [ x*y | x <- xs, y <- xs, x < y]
 
 problem4 :: Int
-problem4 = maximum $ filter isPalindromic $ products threeDigits
+problem4 = maximum . filter isPalindromic $ products threeDigits
 
 main = print problem4

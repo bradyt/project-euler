@@ -7,6 +7,6 @@
 
 import Math.NumberTheory.Primes
 
-p003 = fst $ maximum $ factorise 600851475143
+p003 = fst . maximum $ factorise 600851475143
 
 main = print p003

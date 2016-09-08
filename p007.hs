@@ -8,20 +8,4 @@
 
 import Math.NumberTheory.Primes
 
--- isPrime :: Int -> Bool
--- isPrime a = isPrimeRecursion a [2..]
-
--- isPrimeRecursion :: Int -> [Int] -> Bool
--- isPrimeRecursion a (x:xs)
---   | x^2 > a        = True
---   | a `mod` x == 0 = False
---   | otherwise      = isPrimeRecursion a ys
---   where ys = filter (\y -> y `mod` x /= 0) xs
-
--- nthPrime :: Integral a => Int -> a
--- nthPrime n = (filter isPrime [2..]) !! (n-1)
-
--- problem7 :: Integral a => a
--- problem7 = nthPrime 10001
-
 main = print $ primes !! (10^4)

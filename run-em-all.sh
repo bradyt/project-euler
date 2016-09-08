@@ -8,14 +8,16 @@
 #     racket "${f}"
 # done
 
-for f in p[0-9]*\.hs
+for f in p00[0-9].hs
 do
     echo -n "${f}: "
     # PATH=/usr/local/bin:$PATH python3 "$f"
+
     start=$(date +%s)
     stack runghc "$f"
-    dur=$(echo "$(date +%s) - $start" | bc)
-    printf "\t\t\t%.6f seconds\n" $dur
+    dur=$(echo "$(gdate +%s.%N) - $start" | bc)
+    printf "\t\t\t%.2f seconds\n" $dur
+
 done
 
 

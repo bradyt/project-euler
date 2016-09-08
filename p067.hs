@@ -33,7 +33,7 @@ main :: IO ()
 main = do file <- readFile "./p067_triangle.txt"
           let triangleList =
                 map ((map intStrToInt) . words) $ lines file
-          print $ maximumTotal triangleList
+          print $ head $ maximumTotal triangleList
 
 combiningFunction :: [Int] -> [Int] -> [Int]
 combiningFunction xs ys =

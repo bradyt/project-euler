@@ -19,7 +19,7 @@ fib n
   | even n = let m = n `div` 2
              in (2 * (fib $ m - 1) + (fib m)) * (fib m)
 
-p002 = sum $ takeWhile (<4*10^6) $ map fib [3,6..]
+p002 = sum . takeWhile (<4*10^6) $ map fib [3,6..]
 
 main :: IO ()
 main = print p002

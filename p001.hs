@@ -10,7 +10,7 @@ sumToN :: Integral a => a -> a
 sumToN n = n * (n + 1) `div` 2
 
 sumMultiplesToN :: Integral a => a -> a -> a
-sumMultiplesToN n m = (m *) $ sumToN $ n `div` m
+sumMultiplesToN n m = (m *) . sumToN $ n `div` m
 
 sumOfMultiplesOf3And5 :: Integral a => a
 sumOfMultiplesOf3And5 =

@@ -39,6 +39,7 @@ executable p027
                      , base >=4.8 && <4.9
                      , combinat >= 0.2.8.1
                      , containers >= 0.5.6.2
+                     , integer-gmp >= 1.0.0.0
                      , mtl >= 2.2.1
                      , split >= 0.2.3.1
                      -- , text >= 1.2.2.1
