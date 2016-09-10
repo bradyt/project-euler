@@ -1,7 +1,5 @@
 -- Maximum path sum I
 -- Problem 18
--- Published on Friday, 31st May 2002, 06:00 pm; Solved by 98768;
--- Difficulty rating: 5%
 
 -- By starting at the top of the triangle below and moving to adjacent
 -- numbers on the row below, the maximum total from top to bottom is

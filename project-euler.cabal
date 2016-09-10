@@ -32,8 +32,8 @@ cabal-version:       >=1.10
 --   default-language:    Haskell2010
 --   build-depends:       base >= 4.7 && < 5
 
-executable p027
-  main-is:             p027.hs
+executable p051
+  main-is:             p051.hs
   default-language:    Haskell2010
   build-depends:       QuickCheck
                      , base >=4.8 && <4.9

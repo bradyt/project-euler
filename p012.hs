@@ -1,6 +1,3 @@
-
-import Math.NumberTheory.Primes.Factorisation
-
 -- Highly divisible triangular number
 -- Problem 12
 
@@ -25,6 +22,8 @@ import Math.NumberTheory.Primes.Factorisation
 
 -- What is the value of the first triangle number to have over five
 -- hundred divisors?
+
+import Math.NumberTheory.Primes.Factorisation
 
 triangularNumber :: Integral a => a -> a
 triangularNumber n = n * (n+1) `div` 2
