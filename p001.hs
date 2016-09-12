@@ -15,8 +15,8 @@ sumMultiplesToN :: Integral a => a -> a -> a
 sumMultiplesToN n m = (m *) . sumToN $ n `div` m
 
 sumOfMultiplesOf3And5 :: Integral a => a
-sumOfMultiplesOf3And5 =
-  sum $ map (sumMultiplesToN 999) [3, 5, -15]
+sumOfMultiplesOf3And5 = map (sumMultiplesToN 999) [3, 5, 15]
+  & (\[x, y, z] -> x + y - z)
 
 main :: IO ()
 main = print sumOfMultiplesOf3And5
