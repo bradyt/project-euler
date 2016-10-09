@@ -23,104 +23,104 @@ Please do not deny others what you have so richly valued yourself.
 Problem titles (up to 100)
 
 #+BEGIN_EXAMPLE
-1	Multiples of 3 and 5
-2	Even Fibonacci numbers
-3	Largest prime factor
-4	Largest palindrome product
-5	Smallest multiple
-6	Sum square difference
-7	10001st prime
-8	Largest product in a series
-9	Special Pythagorean triplet
-10	Summation of primes
-11	Largest product in a grid
-12	Highly divisible triangular number
-13	Large sum
-14	Longest Collatz sequence
-15	Lattice paths
-16	Power digit sum
-17	Number letter counts
-18	Maximum path sum I
-19	Counting Sundays
-20	Factorial digit sum
-21	Amicable numbers
-22	Names scores
-23	Non-abundant sums
-24	Lexicographic permutations
-25	1000-digit Fibonacci number
-26	Reciprocal cycles
-27	Quadratic primes
-28	Number spiral diagonals
-29	Distinct powers
-30	Digit fifth powers
-31	Coin sums
-32	Pandigital products
-33	Digit cancelling fractions
-34	Digit factorials
-35	Circular primes
-36	Double-base palindromes
-37	Truncatable primes
-38	Pandigital multiples
-39	Integer right triangles
-40	Champernowne's constant
-41	Pandigital prime
-42	Coded triangle numbers
-43	Sub-string divisibility
-44	Pentagon numbers
-45	Triangular, pentagonal, and hexagonal
-46	Goldbach's other conjecture
-47	Distinct primes factors
-48	Self powers
-49	Prime permutations
-50	Consecutive prime sum
-51	Prime digit replacements
-52	Permuted multiples
-53	Combinatoric selections
-54	Poker hands
-55	Lychrel numbers
-56	Powerful digit sum
-57	Square root convergents
-58	Spiral primes
-59	XOR decryption
-60	Prime pair sets
-61	Cyclical figurate numbers
-62	Cubic permutations
-63	Powerful digit counts
-64	Odd period square roots
-65	Convergents of e
-66	Diophantine equation
-67	Maximum path sum II
-68	Magic 5-gon ring
-69	Totient maximum
-70	Totient permutation
-71	Ordered fractions
-72	Counting fractions
-73	Counting fractions in a range
-74	Digit factorial chains
-75	Singular integer right triangles
-76	Counting summations
-77	Prime summations
-78	Coin partitions
-79	Passcode derivation
-80	Square root digital expansion
-81	Path sum: two ways
-82	Path sum: three ways
-83	Path sum: four ways
-84	Monopoly odds
-85	Counting rectangles
-86	Cuboid route
-87	Prime power triples
-88	Product-sum numbers
-89	Roman numerals
-90	Cube digit pairs
-91	Right triangles with integer coordinates
-92	Square digit chains
-93	Arithmetic expressions
-94	Almost equilateral triangles
-95	Amicable chains
-96	Su Doku
-97	Large non-Mersenne prime
-98	Anagramic squares
-99	Largest exponential
-100	Arranged probability
+1	Multiples of 3 and 5                      .05
+2	Even Fibonacci numbers                    .05
+3	Largest prime factor                      .05
+4	Largest palindrome product                .05
+5	Smallest multiple                         .05
+6	Sum square difference                     .05
+7	10001st prime                             .05
+8	Largest product in a series               .05
+9	Special Pythagorean triplet               .05
+10	Summation of primes                       .05
+11	Largest product in a grid                 .05
+12	Highly divisible triangular number        .05
+13	Large sum                                 .05
+14	Longest Collatz sequence                  .05
+15	Lattice paths                             .05
+16	Power digit sum                           .05
+17	Number letter counts                      .05
+18	Maximum path sum I                        .05
+19	Counting Sundays                          .05
+20	Factorial digit sum                       .05
+21	Amicable numbers                          .05
+22	Names scores                              .05
+23	Non-abundant sums                         .05
+24	Lexicographic permutations                .05
+25	1000-digit Fibonacci number               .05
+26	Reciprocal cycles                         .05
+27	Quadratic primes                          .05
+28	Number spiral diagonals                   .05
+29	Distinct powers                           .05
+30	Digit fifth powers                        .05
+31	Coin sums                                 .05
+32	Pandigital products                       .05
+33	Digit cancelling fractions                .05
+34	Digit factorials                          .05
+35	Circular primes                           .05
+36	Double-base palindromes                   .05
+37	Truncatable primes                        .05
+38	Pandigital multiples                      .05
+39	Integer right triangles                   .05
+40	Champernowne's constant                   .05
+41	Pandigital prime                          .05
+42	Coded triangle numbers                    .05
+43	Sub-string divisibility                   .05
+44	Pentagon numbers                          .05
+45	Triangular, pentagonal, and hexagonal     .05
+46	Goldbach's other conjecture               .05
+47	Distinct primes factors                   .05
+48	Self powers                               .05
+49	Prime permutations                        .05
+50	Consecutive prime sum                     .05
+51	Prime digit replacements                  .15
+52	Permuted multiples                        .05
+53	Combinatoric selections                   .05
+54	Poker hands                               .10
+55	Lychrel numbers                           .05
+56	Powerful digit sum                        .05
+57	Square root convergents                   .05
+58	Spiral primes                             .05
+59	XOR decryption                            .05
+60	Prime pair sets                           .20
+61	Cyclical figurate numbers                 .20
+62	Cubic permutations                        .15
+63	Powerful digit counts                     .05
+64	Odd period square roots                   .20
+65	Convergents of e                          .15
+66	Diophantine equation                      .25
+67	Maximum path sum II                       .05
+68	Magic 5-gon ring                          .25
+69	Totient maximum                           .10
+70	Totient permutation                       .20
+71	Ordered fractions                         .10
+72	Counting fractions                        .20
+73	Counting fractions in a range             .15
+74	Digit factorial chains                    .15
+75	Singular integer right triangles          .25
+76	Counting summations                       .10
+77	Prime summations                          .25
+78	Coin partitions                           .30
+79	Passcode derivation                       .05
+80	Square root digital expansion             .20
+81	Path sum: two ways                        .10
+82	Path sum: three ways                      .20
+83	Path sum: four ways                       .25
+84	Monopoly odds                             .35
+85	Counting rectangles                       .15
+86	Cuboid route                              .35
+87	Prime power triples                       .20
+88	Product-sum numbers                       .40
+89	Roman numerals                            .20
+90	Cube digit pairs                          .40
+91	Right triangles with integer coordinates  .25
+92	Square digit chains                       .05
+93	Arithmetic expressions                    .35
+94	Almost equilateral triangles              .35
+95	Amicable chains                           .30
+96	Su Doku                                   .25
+97	Large non-Mersenne prime                  .05
+98	Anagramic squares                         .35
+99	Largest exponential                       .10
+100	Arranged probability                      .30
 #+END_EXAMPLE
