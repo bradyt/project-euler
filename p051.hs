@@ -71,6 +71,10 @@ countPrimes prime = let
   --   -- length $ filter isJust maybePrimes
   --   maybePrimes
 
+p051' = head $ head $ dropWhile ((<8) . length) $
+  map getBestReplacement primes
+
+main = print "31 seconds"
 
 nDigitPrimes :: Integral a => a -> [a]
 nDigitPrimes n = takeWhile (<10^n) . dropWhile (<10^(n-1)) $
@@ -163,5 +167,5 @@ p051 = mapM_ print $
   take 10 $ filter (not . null) $
   map (onlyLongerElems . fromIntegral) primes
 
-main = p051
+-- main = p051
 -- main = print "33 seconds"

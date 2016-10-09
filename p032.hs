@@ -16,15 +16,16 @@
 
 import Data.List (permutations, group, sort)
 import Data.Maybe (fromJust, isJust)
+import Data.Digits
 
-permsOfNine = permutations ['1'..'9']
+permsOfNine = permutations [1..9]
 
-maybePandigital :: Int -> [Char] -> Maybe Int
+maybePandigital :: Int -> [Int] -> Maybe Int
 maybePandigital n s = let (s0,  s1)  = splitAt 5 s
                           (s00, s01) = splitAt n s0
-                          x = read s00
-                          y = read s01
-                          z = read s1
+                          x = unDigits 10 s00
+                          y = unDigits 10 s01
+                          z = unDigits 10 s1
                       in if x * y == z
                          then Just z
                          else Nothing
@@ -40,4 +41,4 @@ pandigitals = do
 problem32 = sum pandigitals
 
 -- main = print problem32
-main = print "16 seconds"
+main = print "5 seconds"

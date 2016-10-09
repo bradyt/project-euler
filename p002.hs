@@ -23,4 +23,3 @@ p002 = sum . takeWhile (<4*10^6) $ map fib [3,6..]
 
 main :: IO ()
 main = print p002
-
