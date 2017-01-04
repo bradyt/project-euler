@@ -1,5 +1,6 @@
 c/
 elisp/
 incomplete/
+rust/
 \#.*#
 /euler-notes.org

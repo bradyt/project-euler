@@ -5,10 +5,10 @@
 
 # What is the largest prime factor of the number 600851475143 ?
 
-import primes
+import genprimes
 
 def get_prime_largest_factor(n):
-    ps = primes.genPrimes()
+    ps = genprimes.genPrimes()
     p = 1
     while p ** 2 < n:
         p = next(ps)
@@ -25,3 +25,9 @@ def test_get_prime_largest_factor():
     assert get_prime_largest_factor(13195) == 29
 
 test_get_prime_largest_factor()
+
+def main():
+    print(get_prime_largest_factor(600851475143))
+
+if __name__ == "__main__":
+    main()
