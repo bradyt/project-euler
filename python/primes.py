@@ -1,7 +1,7 @@
 
 def genPrimes():
     n = 2
-    notPrime = {}    
+    notPrime = {}
     while True:
         if n in notPrime:
             primes = notPrime.pop(n)
