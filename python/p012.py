@@ -23,21 +23,23 @@
 # What is the value of the first triangle number to have over five
 # hundred divisors?
 
-from primes import trial_division_frequency
+from primes import sieve, trial_division_frequency
 from functools import reduce
 from itertools import count
+from typing import List
 
 def triangular_number(n: int) -> int:
     return n * (n + 1) // 2
 
-def number_of_divisors(n: int) -> int:
+def number_of_divisors(primes: List[int], n: int) -> int:
     return reduce(lambda x, y: x * (y + 1),
-                  trial_division_frequency(n).values(), 1)
+                  trial_division_frequency(primes, n).values(), 1)
 
-def solution():
+def solution() -> int:
+    primes = sieve(2 ** 16)
     for n in count():
         t = triangular_number(n)
-        if number_of_divisors(t) > 500:
+        if number_of_divisors(primes, t) > 500:
             return t
 
 def main():

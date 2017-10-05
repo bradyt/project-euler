@@ -44,12 +44,12 @@ def trial_division(n):
         prime_factors.append(n)
     return prime_factors
 
-def trial_division_frequency(n):
+def trial_division_frequency(primes, n):
     """Return a list of the prime factors for a natural number."""
     if n < 2:
         return {}
     prime_factors = {}
-    for p in sieve(int(n ** 0.5)):
+    for p in primes:
         if p * p > n: break
         while n % p == 0:
             if prime_factors.get(p):
