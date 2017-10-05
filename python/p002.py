@@ -26,8 +26,11 @@ def p002():
     evenFibs = evenFibGen()
     return sum(takewhile(lambda n: n < 4 * 10 ** 6, evenFibs))
 
+def solution():
+    return p002()
+
 def main():
-    print(p002())
+    print(solution())
 
 if __name__ == "__main__":
     main()

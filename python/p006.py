@@ -22,8 +22,11 @@ def sum_sqrs_to_n(n):
 def p006():
     return sum_to_n(100) ** 2 - sum_sqrs_to_n(100)
 
+def solution():
+    return p006()
+
 def main():
-    print(p006())
+    print(solution())
 
 if __name__ == '__main__':
     main()

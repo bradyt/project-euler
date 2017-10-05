@@ -16,8 +16,11 @@ def sum_multiples_of_3_and_5():
     return sum_multiples_to_n(999, 3) + sum_multiples_to_n(999, 5) \
         - sum_multiples_to_n(999, 15)
 
+def solution():
+    return sum_multiples_of_3_and_5()
+
 def main():
-    print(sum_multiples_of_3_and_5())
+    print(solution())
 
 if __name__ == "__main__":
     main()

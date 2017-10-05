@@ -45,8 +45,11 @@ def p008():
         greatest_product = max(greatest_product, product)
     return greatest_product
 
+def solution():
+    return p008()
+
 def main():
-    print(p008())
+    print(solution())
 
 if __name__ == '__main__':
     main()

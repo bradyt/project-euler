@@ -6,10 +6,10 @@
 #
 # What is the 10,001st prime number?
 
-import genprimes
+import primes as p
 
 def nth_prime(n):
-    primes = genprimes.genPrimes()
+    primes = p.genPrimes()
     for _ in range(n - 1):
         next(primes)
     return next(primes)
@@ -17,8 +17,11 @@ def nth_prime(n):
 def p007():
     return nth_prime(10001)
 
+def solution():
+    return p007()
+
 def main():
-    print(p007())
+    print(solution())
 
 if __name__ == '__main__':
     main()

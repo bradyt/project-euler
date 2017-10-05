@@ -19,20 +19,10 @@
 #
 # Output: all i such that A[i] is true.
 
-import math
-
-def sieve(n):
-    A = [True] * (n + 1)
-    A[0] = False
-    A[1] = False
-    for i in range(int(math.sqrt(n)) + 1):
-        if A[i] == True:
-            for j in range(i ** 2, n + 1, i):
-                A[j] = False
-    return A
+import primes
 
 def sum_primes(n):
-    A = sieve(n)
+    A = primes.sieve_of_eratosthenes(n)
     return sum([i for i in range(n + 1) if A[i] == True])
 
 def solution():

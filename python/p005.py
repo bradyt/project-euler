@@ -21,8 +21,11 @@ def lcm_list(l):
 def p005():
     return lcm_list(range(1, 20))
 
+def solution():
+    return p005()
+
 def main():
-    print(p005())
+    print(solution())
 
 if __name__ == '__main__':
     main()

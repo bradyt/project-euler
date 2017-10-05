@@ -27,8 +27,11 @@ def p004():
                 result = prod
     return result
 
+def solution():
+    return p004()
+
 def main():
-    print(p004())
+    print(solution())
 
 if __name__ == '__main__':
     main()
