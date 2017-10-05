@@ -44,7 +44,7 @@ def solution() -> int:
     lengths = find_lengths()
     k_max, v_max = 1, 1
     for k, v in lengths.items():
-        if v > v_max:
+        if v > v_max and k < 10 ** 6:
             k_max, v_max = k, v
     return k_max
 
