@@ -15,7 +15,9 @@
 # Link/Target As..."), a 31K text file containing a 80 by 80 matrix,
 # from the top left to the bottom right by only moving right and down.
 
-def calculate_work(A):
+from typing import List
+
+def calculate_work(A: List[List[int]]) -> int:
     n = len(A)
     B = [ [0] * n for _ in range(n) ]
 
@@ -45,7 +47,25 @@ def calculate_work(A):
 
     return B[-1][-1]
 
+def get_matrix_from_file() -> List[List[int]]:
+    with open('../p081_matrix.txt', 'r') as f:
+        lines = f.readlines()
+    for i in range(len(lines)):
+        cells = lines[i].split(',')
+        n = len(cells)
+        lines[i] = [ int(cells[j]) for j in range(n) ]
+    return lines
+
 def solution() -> int:
+    return calculate_work(get_matrix_from_file())
+
+def main() -> None:
+    print(solution())
+
+if __name__ == '__main__':
+    main()
+
+def test_calculate_work() -> None:
 
     matrix = [
         [ 131, 673, 234, 103,  18 ],
@@ -55,20 +75,4 @@ def solution() -> int:
         [ 805, 732, 524,  37, 331 ],
     ]
 
-    A = matrix
-
-    return calculate_work(A)
-
-def main() -> None:
-    # print(solution())
-    with open('../p081_matrix.txt', 'r') as f:
-        lines = f.readlines()
-    for i in range(len(lines)):
-        cells = lines[i].split(',')
-        n = len(cells)
-        lines[i] = [ int(cells[j]) for j in range(n) ]
-    return calculate_work(lines)
-
-
-if __name__ == '__main__':
-    main()
+    assert(calculate_work(matrix) == 2427)
