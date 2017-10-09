@@ -48,8 +48,8 @@ def find_limit(m: int) -> int:
 
 def solution() -> int:
     m, n = min([(m, n)
-                for m in range(1, find_limit(1))
-                for n in range(find_limit(m))],
+                for m in range(1, find_limit(1) + 1)
+                for n in range(find_limit(m) + 1)],
                key=distance)
     return m * n
 
