@@ -1,9 +1,0 @@
-flags: {}
-extra-package-dbs: []
-packages:
-- '.'
-resolver: lts-6.6
-build:
-  executable-profiling: true
-extra-deps:
-- combinat-0.2.8.1
