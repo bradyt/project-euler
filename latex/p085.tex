@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{pmboxdraw}
+\DeclareUnicodeCharacter{2529}{\pmboxdrawuni{2529}}
+\usepackage{amsmath}
+\begin{document}
+% 
+
+\begin{verbatim}
+Counting rectangles
+Problem 85
+
+By counting carefully it can be seen that a rectangular grid measuring
+3 by 2 contains eighteen rectangles:
+
+   ┏━━┱──┬──┐ ┏━━━━━┱──┐ ┏━━━━━━━━┓
+   ┃  ┃  │  │ ┃     ┃  │ ┃        ┃
+   ┡━━╃──┼──┤ ┡━━┯━━╃──┤ ┡━━┯━━┯━━┩
+   │  │  │  │ │  │  │  │ │  │  │  │
+   └──┴──┴──┘ └──┴──┴──┘ └──┴──┴──┘
+       6          4          2
+   ┏━━┱──┬──┐ ┏━━━━━┱──┐ ┏━━━━━━━━┓
+   ┃  ┃  │  │ ┃     ┃  │ ┃        ┃
+   ┃  ┠──┼──┤ ┃     ┠──┤ ┃        ┃
+   ┃  ┃  │  │ ┃     ┃  │ ┃        ┃
+   ┗━━┹──┴──┘ ┗━━━━━┹──┘ ┗━━━━━━━━┛
+       3          2          1
+
+Although there exists no rectangular grid that contains exactly two
+million rectangles, find the area of the grid with the nearest
+solution.
+\end{verbatim}
+
+\begin{align*}
+  % \sum_{p=1}^m \sum_{q=1}^n (m - p + 1) (n - q + 1)
+  % & = \sum_{p=1}^m \sum_{q=1}^n (a - p) (b - q) & \text{let $a = m +
+  %                                                 1$, $b = n + 1$}\\
+  % & = \sum_{p=1}^m \sum_{q=1}^n ab - pb - (a - p)q \\
+  % & = \sum_{p=1}^m (ab - pb)n - (a - p)\frac{n(n + 1)}{2} & \text{let $c = \frac{n(n + 1)}{2}$}\\
+  % & = \sum_{p=1}^m abn - ac - (bn + c)p \\
+  % & = (abn - ac)m - (bn + c)\frac{m(m + 1)}{2} \\
+  % & = \frac{1}{4}(abmn - an(n + 1)m - bm(m + 1)n + m(m + 1)c) \\
+  \sum_{p=1}^m \sum_{q=1}^n (m - p + 1) (n - q + 1)
+    & = \sum_{p=1}^m \sum_{q=1}^n (n + 1)(m - p + 1) - q(m - p + 1) \\
+    & = \sum_{p=1}^m n(n + 1)(m - p + 1) - \frac{n(n + 1)}{2}(m - p + 1) \\
+    & = \frac{n(n + 1)}{2} \sum_{p=1}^m m + 1 - p \\
+    & = \frac{n(n + 1)}{2} \bigg( m(m + 1) - \frac{m(m + 1)}{2} \bigg) \\
+    & = \frac{n(n + 1)}{2} \frac{m(m + 1)}{2}
+  \\
+  % & = \frac{1}{2}\sum_{p=1}^m 2mn^2 + 2mn - 2n^2p - 2np + 2n^2 + 2n
+  % + (m + p - 1)n(n + 1) \\
+  % & = \frac{1}{2}\sum_{p=1}^m 2mn^2 + 2mn - 2n^2p - 2np + 2n^2 + 2n
+  % + mn^2 + mn + n^2p + np - n^2 - n \\
+\end{align*}
+
+\end{document}

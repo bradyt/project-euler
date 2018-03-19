@@ -1,0 +1,7 @@
+|  2 | uses fib                      |
+|  3 | primes                        |
+|  4 | takes 1.4 seconds             |
+|  5 | primes                        |
+| 26 | takes 5 seconds               |
+| 43 | takes 3 seconds, 30 by itself |
+
