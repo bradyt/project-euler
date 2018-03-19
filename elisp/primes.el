@@ -12,7 +12,6 @@
 
 (defun prime-factorization (n)
   (let* ((m (floor (sqrt n)))
-         (candidates (sieve m))
-         candidates
-         )))
+         (candidates (sieve m)))
+    candidates))
 

@@ -1,14 +1,17 @@
 
 import math
+import itertools
 
 # from https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes#Pseudocode
 def sieve_of_eratosthenes(n):
     A = [True] * (n + 1)
     A[0] = False
     A[1] = False
-    for i in range(int(math.sqrt(n)) + 1):
+    for j in range(4, n + 1, 2):
+        A[j] = False
+    for i in range(3, int(math.sqrt(n)) + 1):
         if A[i] == True:
-            for j in range(i ** 2, n + 1, i):
+            for j in range(i ** 2, n + 1, 2 * i):
                 A[j] = False
     return A
 
@@ -36,6 +39,20 @@ def trial_division(n):
         return []
     prime_factors = []
     for p in sieve(int(n ** 0.5)):
+        if p * p > n: break
+        while n % p == 0:
+            prime_factors.append(p)
+            n //= p
+    if n > 1:
+        prime_factors.append(n)
+    return prime_factors
+
+def trial_division_with_cache(primes, n):
+    """Return a list of the prime factors for a natural number."""
+    if n < 2:
+        return []
+    prime_factors = []
+    for p in primes:
         if p * p > n: break
         while n % p == 0:
             prime_factors.append(p)

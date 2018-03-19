@@ -11,6 +11,9 @@
 # What is the probability that Pyramidal Pete beats Cubic Colin? Give
 # your answer rounded to seven decimal places in the form 0.abcdefg
 
+# TODO: Check https://docs.python.org/3/library/itertools.html#itertools.product
+# for idea to cleanup code.
+
 def count_rolls_4_9(t):
     m = 4
     count = 0
@@ -50,9 +53,9 @@ def count_peter_wins() -> int:
         c_less_than_k += count_rolls_6_6(k)
     return p_wins
 
-def solution() -> str:
+def solution() -> float:
     result = count_peter_wins() / (4 ** 9 * 6 ** 6)
-    return f'{result:.7f}'
+    return float(f'{result:.7f}')
 
 def main() -> None:
     print(solution())

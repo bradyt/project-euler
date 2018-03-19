@@ -22,12 +22,13 @@
 # million.
 
 from typing import Dict
+from math import log
 
 def next_value(n: int) -> int:
     return n // 2 if n % 2 == 0 else 3 * n + 1
 
 def find_lengths() -> Dict[int, int]:
-    lengths = {1: 1}
+    lengths = { 2 ** i: i + 1 for i in range(int(log(10 ** 6, 2))) }
     def find_length_rec(n: int) -> int:
         if n in lengths:
             return lengths[n]
@@ -35,7 +36,7 @@ def find_lengths() -> Dict[int, int]:
             length = find_length_rec(next_value(n)) + 1
             lengths[n] = length
             return length
-    for n in range(2, 10 ** 6):
+    for n in range(3, 10 ** 6, 2):
         if n not in lengths:
             lengths[n] = find_length_rec(next_value(n)) + 1
     return lengths

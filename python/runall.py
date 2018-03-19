@@ -2,11 +2,19 @@
 import os
 import glob
 
-euler_problems = glob.glob('./p*.py')
+# euler_problems = glob.glob('./p*.py')
 
-def main():
-    for ep in euler_problems:
-        os.system('python3 ' + ep)
+ps = [
+    p001,
+    # p002,
+    # p003,
+]
 
-if __name__ == '__main__':
-    main()
+
+# def main():
+#     for ep in euler_problems:
+#         print(ep)
+#         # os.system('python3 ' + ep)
+
+# if __name__ == '__main__':
+#     main()
